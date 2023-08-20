@@ -8,4 +8,4 @@ Collection of Modular components for DOTween, Developed by 'Linked Games'
 - Preview Tweens within Editor
 
 ## Important
-Made in Unity 2021.3.19f1 LTS, clone this project or download this .unitypackagefile
+Made in Unity 2021.3.19f1 LTS, clone this project or download this [.unitypackage](https://github.com/Linked-Games/DOTween-Modular-2D-Development/edit/main/README.md)
