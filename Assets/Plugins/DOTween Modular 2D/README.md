@@ -1,4 +1,4 @@
-# DOTween Modular 2D (Development)
+# DOTween Modular 2D
 Collection of Modular components for DOTween, Developed by 'Linked Games'
 
 ## Features
@@ -8,7 +8,4 @@ Collection of Modular components for DOTween, Developed by 'Linked Games'
 - Preview Tweens within Editor
 
 ## Important
-This is preconfigured project for Development of DOTween Modular 2D.
-It is made in Unity 2021.3.19f1 LTS, If you do not have this version and do not 
-want to go through the hassle of configuring  it for your version, simply download 
-this **.unitypacakage** file in your project
+Must install [DOTween](https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676) before installing this package
