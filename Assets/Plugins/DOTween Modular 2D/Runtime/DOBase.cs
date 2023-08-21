@@ -107,8 +107,10 @@ public abstract class DOBase : MonoBehaviour
         if (tween == null) return;
         if (!tween.playedOnce) return;
 
-        tween.Kill();
         onTweenKilled?.Invoke(this);
+        ClearTweenCallbacks();
+        tween.Kill();
+        tween = null;
 
         if (destroyComponent) Destroy(this);
         if (destroyGameObject) Destroy(gameObject);
@@ -117,7 +119,6 @@ public abstract class DOBase : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other) 
     {
         if (begin != Begin.OnTrigger) return;
-        // if (other.gameObject.layer != LayerMask.NameToLayer("Player")) return;
         if (enteredTrigger) return;
 
         enteredTrigger = true;
@@ -128,6 +129,8 @@ public abstract class DOBase : MonoBehaviour
     {
         if (tween != null)
         {
+            onTweenKilled?.Invoke(this);
+            ClearTweenCallbacks();
             tween.Kill();
             tween = null;
         }
@@ -165,8 +168,10 @@ public abstract class DOBase : MonoBehaviour
 
         if (kill == Kill.OnTweenComplete)
         {
-            tween.Kill();
             onTweenKilled?.Invoke(this);
+            ClearTweenCallbacks();
+            tween.Kill();
+            tween = null;
 
             if (destroyComponent) Destroy(this);
             if (destroyGameObject) Destroy(gameObject);
@@ -187,6 +192,19 @@ public abstract class DOBase : MonoBehaviour
         tween.Play();
 
         tweenObject.onTweenCompleted.RemoveListener(OnStartAfterTweenCompleted);
+    }
+
+    private void ClearTweenCallbacks()
+    {
+        Tween.OnComplete(null);
+        Tween.OnKill(null);
+        Tween.OnPause(null);
+        Tween.OnPlay(null);
+        Tween.OnRewind(null);
+        Tween.OnStart(null);
+        Tween.OnStepComplete(null);
+        Tween.OnUpdate(null);
+        Tween.OnWaypointChange(null);
     }
 
 }
