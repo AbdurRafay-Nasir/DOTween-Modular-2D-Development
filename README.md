@@ -6,6 +6,8 @@ Collection of Modular components for DOTween, Developed by 'Linked Games'
 - Organized inspector
 - Visual Editing Tools
 - Preview Tweens within Editor
+- Utility Methods for generating curves
+- Extension Methods for 2D Look At
 
 ## Important
 If you just want to use the package visit this [link](https://github.com/Linked-Games/DOTween-Modular-2D)

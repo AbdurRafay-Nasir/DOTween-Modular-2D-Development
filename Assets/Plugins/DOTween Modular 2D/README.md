@@ -6,6 +6,8 @@ Collection of Modular components for DOTween
 - Organized inspector
 - Visual Editing Tools
 - Preview Tweens within Editor
+- Utility Methods for generating curves
+- Extension Methods for 2D Look At
 
 ## Prerequisite
 Must install [DOTween](https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676) before installing this package
