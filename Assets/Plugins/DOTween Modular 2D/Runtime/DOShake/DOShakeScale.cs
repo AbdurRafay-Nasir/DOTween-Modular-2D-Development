@@ -1,10 +1,12 @@
 using DG.Tweening;
+using UnityEngine;
 
 namespace DOTweenModular2D
-{ 
+{
+    [AddComponentMenu("DOTween Modular 2D/DO Shake/DO Shake Scale")]
     public class DOShakeScale : DOShakeBase
     {
-        public UnityEngine.Vector2 strength;
+        public Vector2 strength;
 
         protected override void InitializeTween()
         {
