@@ -1,12 +1,11 @@
 #if UNITY_EDITOR
 
+using DOTweenModular2D.Enums;
+using UnityEngine;
+using UnityEditor;
+
 namespace DOTweenModular2D.Editor
 {
-
-    using DOTweenModular2D.Enums;
-    using UnityEngine;
-    using UnityEditor;
-
     [CustomEditor(typeof(DOPunchBase))]
     [CanEditMultipleObjects]
     public class DOPunchBaseEditor : DOBaseEditor

@@ -5,6 +5,7 @@ using UnityEditor;
 namespace DOTweenModular2D.Editor
 {
     [CustomEditor(typeof(DOShakeAnchorPos))]
+    [CanEditMultipleObjects]
     public class DOShakeAnchorPosEditor : DOShakePositionEditor
     {
         // Empty because unity does not allow more than one 

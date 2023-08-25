@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace DOTweenModular2D.Editor
 {
-    [CustomEditor(typeof(DOPath))]
+    [CustomEditor(typeof(DOPath)), CanEditMultipleObjects]
     public class DOPathEditor : DOBaseEditor
     {
 

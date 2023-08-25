@@ -6,6 +6,7 @@ namespace DOTweenModular2D.Editor
 {
 
     [CustomEditor(typeof(DOPunchPosition))]
+    [CanEditMultipleObjects]
     public class DOPunchPositionEditor : DOPunchBaseEditor
     {
         private SerializedProperty punchAmountProp;

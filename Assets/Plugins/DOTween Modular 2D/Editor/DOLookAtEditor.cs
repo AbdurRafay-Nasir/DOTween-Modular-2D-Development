@@ -5,7 +5,7 @@ using UnityEditor;
 
 namespace DOTweenModular2D.Editor
 {
-    [CustomEditor(typeof(DOLookAt))]
+    [CustomEditor(typeof(DOLookAt)), CanEditMultipleObjects]
     public class DOLookAtEditor : DOBaseEditor
     {
 

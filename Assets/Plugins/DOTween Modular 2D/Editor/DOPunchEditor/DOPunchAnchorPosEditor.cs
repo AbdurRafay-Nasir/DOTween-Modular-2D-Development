@@ -5,6 +5,7 @@ using UnityEditor;
 namespace DOTweenModular2D.Editor 
 {
     [CustomEditor(typeof(DOPunchAnchorPos))]
+    [CanEditMultipleObjects]
     public class DOPunchAnchorPosEditor : DOPunchPositionEditor
     {
         // Empty because unity does not allow more than one 
