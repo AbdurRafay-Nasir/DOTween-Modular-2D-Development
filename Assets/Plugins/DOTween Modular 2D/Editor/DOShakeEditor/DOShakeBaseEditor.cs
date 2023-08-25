@@ -1,11 +1,10 @@
 #if UNITY_EDITOR
 
+using UnityEngine;
+using UnityEditor;
+
 namespace DOTweenModular2D.Editor
 {
-
-    using UnityEngine;
-    using UnityEditor;
-
     [CustomEditor(typeof(DOShakeBase))]
     [CanEditMultipleObjects]
     public class DOShakeBaseEditor : DOBaseEditor
