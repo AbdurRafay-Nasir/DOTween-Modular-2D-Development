@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using UnityEditor;
 
 namespace DOTweenModular2D.Editor
@@ -25,5 +27,6 @@ namespace DOTweenModular2D.Editor
             snappingProp = serializedObject.FindProperty("snapping");
         }
     }
-
 }
+
+#endif

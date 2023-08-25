@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using UnityEditor;
 
 namespace DOTweenModular2D.Editor
@@ -22,5 +24,6 @@ namespace DOTweenModular2D.Editor
             punchAmountProp = serializedObject.FindProperty("punchAmount");
         }
     }
-
 }
+
+#endif

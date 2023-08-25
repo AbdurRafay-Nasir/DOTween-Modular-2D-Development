@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using UnityEditor;
 
 namespace DOTweenModular2D.Editor
@@ -10,3 +12,5 @@ namespace DOTweenModular2D.Editor
         // and this editor script was exactly same as DOPunchPositionEditor
     }
 }
+
+#endif
