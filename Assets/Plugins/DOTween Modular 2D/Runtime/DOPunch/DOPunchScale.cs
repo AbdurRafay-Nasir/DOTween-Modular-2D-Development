@@ -1,8 +1,8 @@
+using DG.Tweening;
+using UnityEngine;
+
 namespace DOTweenModular2D
 {
-    using DG.Tweening;
-    using UnityEngine;
-
     [AddComponentMenu("DOTween Modular 2D/Transform/DO Punch/DO Punch Scale")]
     public class DOPunchScale : DOPunchBase
     {

@@ -1,8 +1,8 @@
+using DG.Tweening;
+using UnityEngine;
+
 namespace DOTweenModular2D
 {
-    using DG.Tweening;
-    using UnityEngine;
-
     public abstract class DOPunchBase : DOBase
     {
         [Tooltip("Indicates how much will the punch vibrate")]
