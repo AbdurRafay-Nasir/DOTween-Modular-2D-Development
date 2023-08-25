@@ -3,13 +3,9 @@ using UnityEngine;
 
 namespace DOTweenModular2D
 {
-
-    [AddComponentMenu("DOTween Modular 2D/DOPunch/DO Punch Anchor Pos")]
-    public class DOPunchAnchorPos : DOPunchBase
+    [AddComponentMenu("DOTween Modular 2D/DO Punch/DO Punch Anchor Pos")]
+    public class DOPunchAnchorPos : DOPunchPosition
     {
-        public Vector2 punchAmount;
-        public bool snapping;
-
         protected override void InitializeTween()
         {
             RectTransform rectTransform = (RectTransform)transform;

@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 63586554}
   - component: {fileID: 63586553}
   - component: {fileID: 63586555}
+  - component: {fileID: 63586556}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -159,7 +160,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -64.99992, y: -52}
+  m_AnchoredPosition: {x: -65, y: -52}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &63586553
@@ -241,6 +242,50 @@ MonoBehaviour:
   vibrato: 5
   elasticity: 1
   punchAmount: {x: 100, y: 0}
+  snapping: 0
+--- !u!114 &63586556
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 63586551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f174d196db5833544bb7f9aac50098b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  begin: 0
+  tweenObject: {fileID: 0}
+  kill: 0
+  destroyComponent: 0
+  destroyGameObject: 0
+  delay: 0
+  tweenType: 0
+  loopType: 0
+  easeType: 0
+  curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  loops: -1
+  duration: 1
+  onTweenCreated:
+    m_PersistentCalls:
+      m_Calls: []
+  onTweenCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+  onTweenKilled:
+    m_PersistentCalls:
+      m_Calls: []
+  fadeOut: 1
+  vibrato: 10
+  randomness: 90
+  randomnessMode: 0
+  strength: {x: 200, y: 200}
   snapping: 0
 --- !u!1 &75020865
 GameObject:
