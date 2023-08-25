@@ -5,7 +5,7 @@ using UnityEngine;
 namespace DOTweenModular2D.Miscellaneous
 {
     /// <summary>
-    /// Provides utility methods for generating various types of curves and <br/> 
+    /// Utility methods for generating various types of curves and <br/> 
     /// for converting points between relative and absolute modes.
     /// </summary>
     public static class Curve
