@@ -3,6 +3,7 @@ namespace DOTweenModular2D
     using DG.Tweening;
     using UnityEngine;
 
+    [AddComponentMenu("DOTween Modular 2D/DOPunch/DOPunchPosition")]
     public class DOPunchPosition : DOPunchBase
     {
         public Vector2 punchAmount;
