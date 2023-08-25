@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DOTweenModular2D
 {
-    [AddComponentMenu("DOTween Modular 2D/DO Shake/DO Shake Position")]
+    [AddComponentMenu("DOTween Modular 2D/Transform/DO Shake/DO Shake Position")]
     public class DOShakePosition : DOShakeBase
     {
         public Vector2 strength;

@@ -5,7 +5,7 @@ using DOTweenModular2D.Enums;
 using DG.Tweening;
 using UnityEngine;
 
-[AddComponentMenu("DOTween Modular 2D/DO LookAt", 7)]
+[AddComponentMenu("DOTween Modular 2D/Transform/DO LookAt", 90)]
 public class DOLookAt : DOBase
 {
     [Tooltip("Type of Look At")]

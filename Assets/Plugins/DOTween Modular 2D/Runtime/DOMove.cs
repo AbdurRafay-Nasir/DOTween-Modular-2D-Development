@@ -5,7 +5,7 @@ using DG.Tweening;
 using DOTweenModular2D.Enums;
 using UnityEngine;
 
-[AddComponentMenu("DOTween Modular 2D/DO Move", 1)]
+[AddComponentMenu("DOTween Modular 2D/Transform/DO Move", 50)]
 public class DOMove : DOBase
 {
     [Tooltip("If TRUE, the tween will Move duration amount in each second")]

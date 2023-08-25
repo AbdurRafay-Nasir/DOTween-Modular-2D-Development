@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DOTweenModular2D
 {
-    [AddComponentMenu("DOTween Modular 2D/DO Shake/DO Shake Anchor Pos")]
+    [AddComponentMenu("DOTween Modular 2D/UI/DO Shake Anchor Pos")]
     public class DOShakeAnchorPos : DOShakePosition
     {
         protected override void InitializeTween()

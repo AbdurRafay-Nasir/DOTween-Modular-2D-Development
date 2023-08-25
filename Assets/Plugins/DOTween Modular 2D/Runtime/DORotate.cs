@@ -4,7 +4,7 @@ namespace DOTweenModular2D
 using DG.Tweening;
 using UnityEngine;
 
-[AddComponentMenu("DOTween Modular 2D/DO Rotate", 2)]
+[AddComponentMenu("DOTween Modular 2D/Transform/DO Rotate", 60)]
 public class DORotate : DOBase
 {
     [Tooltip("Fast - Fastest way that never rotates beyond 360° " + "\n" + "\n" +

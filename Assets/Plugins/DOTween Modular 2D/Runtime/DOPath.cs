@@ -7,7 +7,7 @@ using System;
 using DG.Tweening;
 using UnityEngine;
 
-[AddComponentMenu("DOTween Modular 2D/DO Path", 6)]
+[AddComponentMenu("DOTween Modular 2D/Transform/DO Path", 80)]
 public class DOPath : DOBase
 {
     // Path Settings

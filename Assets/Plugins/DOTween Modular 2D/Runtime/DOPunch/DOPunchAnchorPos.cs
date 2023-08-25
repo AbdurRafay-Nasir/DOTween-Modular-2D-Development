@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DOTweenModular2D
 {
-    [AddComponentMenu("DOTween Modular 2D/DO Punch/DO Punch Anchor Pos")]
+    [AddComponentMenu("DOTween Modular 2D/UI/DO Punch Anchor Pos")]
     public class DOPunchAnchorPos : DOPunchPosition
     {
         protected override void InitializeTween()

@@ -4,7 +4,7 @@ namespace DOTweenModular2D
 using DG.Tweening;
 using UnityEngine;
 
-[AddComponentMenu("DOTween Modular 2D/DO Sequence", 8)]
+[AddComponentMenu("DOTween Modular 2D/DO Sequence", 1)]
 public class DOSequence : DOBase
 {
     public SequenceTweens[] sequenceTweens;
