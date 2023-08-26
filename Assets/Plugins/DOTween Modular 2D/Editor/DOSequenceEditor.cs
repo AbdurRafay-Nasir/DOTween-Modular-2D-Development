@@ -179,9 +179,30 @@ namespace DOTweenModular2D.Editor
                 if (doSequence.tweenObject != null)
                     DrawLineToTweenObject();
             }
+
+            if (doSequence.sequenceTweens == null)
+                return;
+
+            Handles.color = Color.yellow;
+
+            DrawLinesToSequenceTweens();
         }
 
         #endregion
+
+        private void DrawLinesToSequenceTweens()
+        {
+            Vector2 startPosition = doSequence.transform.position;
+
+            for (int i = 0; i < doSequence.sequenceTweens.Length; i++)
+            {
+                DOBase sequenceTweenObj = doSequence.sequenceTweens[i].tweenObject;
+                if (sequenceTweenObj == null)
+                    continue;
+
+                Handles.DrawLine(startPosition, sequenceTweenObj.transform.position);
+            }
+        }
 
         #region Preview Functions
 
