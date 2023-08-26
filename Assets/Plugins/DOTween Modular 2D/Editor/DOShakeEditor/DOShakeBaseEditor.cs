@@ -136,7 +136,7 @@ namespace DOTweenModular2D.Editor
             EditorGUILayout.EndHorizontal();
         }
 
-        private void OnSceneGUI()
+        protected void OnSceneGUI()
         {
             if (doShake.begin == Enums.Begin.After ||
                 doShake.begin == Enums.Begin.With)

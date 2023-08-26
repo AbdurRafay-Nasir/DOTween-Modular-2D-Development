@@ -136,7 +136,7 @@ namespace DOTweenModular2D.Editor
             EditorGUILayout.EndHorizontal();
         }
 
-        private void OnSceneGUI()
+        protected void OnSceneGUI()
         {
             if (doPunch.begin == Begin.After ||
                 doPunch.begin == Begin.With)

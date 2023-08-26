@@ -337,9 +337,20 @@ namespace DOTweenModular2D.Editor
         /// </summary>
         protected void DrawLineToTweenObject()
         {
-            DOBase tweenObject = (DOBase)tweenObjectProp.objectReferenceValue;
+            DOBase tweenObj = (DOBase)tweenObjectProp.objectReferenceValue;
+            Vector2 lineStart = doBase.transform.position;
 
-            Handles.DrawLine(doBase.transform.position, tweenObject.transform.position);
+            Handles.DrawLine(lineStart, tweenObj.transform.position);
+
+            while ((tweenObj.begin == Begin.After || tweenObj.begin == Begin.With)
+                     && tweenObj.tweenObject != null)
+            {
+                lineStart = tweenObj.transform.position;
+
+                tweenObj = tweenObj.tweenObject;
+
+                Handles.DrawLine(lineStart, tweenObj.transform.position);
+            }
         }
 
         /// <summary>
