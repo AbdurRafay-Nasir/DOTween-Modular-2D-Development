@@ -266,16 +266,30 @@ namespace DOTweenModular2D.Editor
             Color handleColor = color[currentHandleColorIndex];
             Color lineColor = color[currentLineColorIndex];
 
-            Vector3 startPosition;
+            Vector2 handlePosition;
 
-            if (EditorApplication.isPlaying)
-                startPosition = beginPosition;
-            else if (TweenPreviewing)
-                startPosition = positionBeforePreview;
+            if (doJump.useLocal)
+            {
+                if (doJump.transform.parent == null)
+                {
+                    handlePosition = doJump.targetPosition;
+                }
+                else
+                {
+                    handlePosition = doJump.transform.parent.TransformPoint(doJump.targetPosition);                    
+                }
+            }
             else
-                startPosition = doJump.transform.position;
-
-            Vector3 handlePosition = CalculateTargetPosition(startPosition);
+            {
+                if (doJump.relative)
+                {
+                    handlePosition = (Vector2)doJump.transform.position + doJump.targetPosition;
+                }
+                else
+                {
+                    handlePosition = doJump.targetPosition;
+                }
+            }
 
             if (doJump.lookAt != LookAtSimple.None)
             {
@@ -295,60 +309,60 @@ namespace DOTweenModular2D.Editor
 
         #endregion
 
-        private Vector3 CalculateTargetPosition(Vector2 startPosition)
-        {
-            Vector3 handlePosition;
+        //private Vector3 CalculateTargetPosition(Vector2 startPosition)
+        //{
+        //    Vector3 handlePosition;
 
-            if (doJump.useLocal)
-            {
-                if (doJump.transform.parent != null)
-                {
-                    handlePosition = doJump.transform.parent.TransformPoint(doJump.targetPosition);
-                }
-                else
-                {
-                    handlePosition = doJump.targetPosition;
-                }
-            }
+        //    if (doJump.useLocal)
+        //    {
+        //        if (doJump.transform.parent != null)
+        //        {
+        //            handlePosition = doJump.transform.parent.TransformPoint(doJump.targetPosition);
+        //        }
+        //        else
+        //        {
+        //            handlePosition = doJump.targetPosition;
+        //        }
+        //    }
 
-            else
-            {
+        //    else
+        //    {
 
-                if (doJump.relative)
-                {
-                    if (firstTimeRelative)
-                    {
-                        doJump.targetPosition = doJump.targetPosition - (Vector2)doJump.transform.position;
+        //        if (doJump.relative)
+        //        {
+        //            if (firstTimeRelative)
+        //            {
+        //                doJump.targetPosition = doJump.targetPosition - (Vector2)doJump.transform.position;
 
-                        firstTimeRelative = false;
-                        EditorPrefs.SetBool(savedFirstTimeRelative, firstTimeRelative);
-                    }
+        //                firstTimeRelative = false;
+        //                EditorPrefs.SetBool(savedFirstTimeRelative, firstTimeRelative);
+        //            }
 
-                    handlePosition = startPosition + doJump.targetPosition;
+        //            handlePosition = startPosition + doJump.targetPosition;
 
-                    firstTimeNonRelative = true;
-                    EditorPrefs.SetBool(savedFirstTimeNonRelative, firstTimeNonRelative);
-                }
-                else
-                {
-                    if (firstTimeNonRelative)
-                    {
-                        doJump.targetPosition = doJump.targetPosition + (Vector2)doJump.transform.position;
+        //            firstTimeNonRelative = true;
+        //            EditorPrefs.SetBool(savedFirstTimeNonRelative, firstTimeNonRelative);
+        //        }
+        //        else
+        //        {
+        //            if (firstTimeNonRelative)
+        //            {
+        //                doJump.targetPosition = doJump.targetPosition + (Vector2)doJump.transform.position;
 
-                        firstTimeNonRelative = false;
-                        EditorPrefs.SetBool(savedFirstTimeNonRelative, firstTimeNonRelative);
-                    }
+        //                firstTimeNonRelative = false;
+        //                EditorPrefs.SetBool(savedFirstTimeNonRelative, firstTimeNonRelative);
+        //            }
 
-                    handlePosition = doJump.targetPosition;
+        //            handlePosition = doJump.targetPosition;
 
-                    firstTimeRelative = true;
-                    EditorPrefs.SetBool(savedFirstTimeRelative, firstTimeRelative);
-                }
+        //            firstTimeRelative = true;
+        //            EditorPrefs.SetBool(savedFirstTimeRelative, firstTimeRelative);
+        //        }
 
-            }
+        //    }
 
-            return handlePosition;
-        }
+        //    return handlePosition;
+        //}
 
         #region Draw Sceneview Functions
 

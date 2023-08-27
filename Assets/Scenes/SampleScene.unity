@@ -201,12 +201,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 505779920}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.85, y: 1.17, z: 0}
+  m_LocalPosition: {x: -8.18, y: -1.9600002, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_Father: {fileID: 2011718675}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &505779923
 MonoBehaviour:
@@ -220,15 +220,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b65ed00daa67d64a9303425d78278ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  begin: 3
-  tweenObject: {fileID: 2011718676}
+  begin: 0
+  tweenObject: {fileID: 0}
   kill: 0
   destroyComponent: 0
   destroyGameObject: 0
   delay: 0
-  tweenType: 1
-  loopType: 1
-  easeType: 1
+  tweenType: 0
+  loopType: 0
+  easeType: 0
   curve:
     serializedVersion: 2
     m_Curve: []
@@ -246,19 +246,19 @@ MonoBehaviour:
   onTweenKilled:
     m_PersistentCalls:
       m_Calls: []
-  relative: 1
+  relative: 0
   useLocal: 1
   snapping: 0
-  targetPosition: {x: -14.480879, y: 0.821538}
-  jumpPower: 5
-  jumps: 1
+  targetPosition: {x: 0, y: 0}
+  jumpPower: 0
+  jumps: 0
   lookAt: 0
   lookAtTarget: {fileID: 0}
-  lookAtPosition: {x: -0.5632181, y: 1.2672403}
+  lookAtPosition: {x: 0, y: 0}
   offset: -90
-  min: 270
+  min: 0
   max: 360
-  smoothFactor: 1
+  smoothFactor: 0.01
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -426,7 +426,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &552027589
 MonoBehaviour:
@@ -560,7 +560,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1234659487
 GameObject:
@@ -644,7 +644,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2011718673
 GameObject:
@@ -727,9 +727,10 @@ Transform:
   m_LocalPosition: {x: -1.67, y: 3.13, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 505779922}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2011718676
 MonoBehaviour:
