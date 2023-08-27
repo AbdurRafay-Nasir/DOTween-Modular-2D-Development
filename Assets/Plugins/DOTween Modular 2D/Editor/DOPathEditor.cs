@@ -892,7 +892,7 @@ namespace DOTweenModular2D.Editor
 
             for (int i = 0; i < savedTabStates.Length; i++)
             {
-                savedTabStates[i] = "DOScaleEditor_tabStates_" + i + " " + instanceId;
+                savedTabStates[i] = "DOPathEditor_tabStates_" + i + " " + instanceId;
                 tabStates[i] = EditorPrefs.GetBool(savedTabStates[i], true);
             }
         }

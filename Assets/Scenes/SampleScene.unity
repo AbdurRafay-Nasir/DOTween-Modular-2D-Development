@@ -572,7 +572,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 641684056}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd28fa69cd1c75b42b5d94276554732f, type: 3}
+  m_Script: {fileID: 11500000, guid: 718d1b7a79bcb6b4d94839fc21923a81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   begin: 0
@@ -601,18 +601,18 @@ MonoBehaviour:
   onTweenKilled:
     m_PersistentCalls:
       m_Calls: []
-  pathType: 0
-  resolution: 1
+  speedBased: 0
+  relative: 0
+  snapping: 0
+  targetPosition: {x: 0, y: 0}
+  useLocal: 0
   lookAt: 0
   lookAtTarget: {fileID: 0}
   lookAtPosition: {x: 0, y: 0}
   offset: -90
-  smoothFactor: 1
-  percentage: 0.01
-  speedBased: 0
-  relative: 0
-  connectStartAndEnd: 0
-  pathPoints: []
+  min: 0
+  max: 360
+  smoothFactor: 0.01
 --- !u!1 &1234659487
 GameObject:
   m_ObjectHideFlags: 0
