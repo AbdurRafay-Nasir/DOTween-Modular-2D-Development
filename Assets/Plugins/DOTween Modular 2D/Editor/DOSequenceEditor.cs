@@ -18,6 +18,9 @@ namespace DOTweenModular2D.Editor
 
         private SavedTransforms[] savedTransforms;
 
+        private bool[] tabStates = new bool[4];
+        private string[] savedTabStates = new string[4];
+
         #region Foldout Bool
 
         private bool sequenceSettingsFoldout = true;
@@ -62,85 +65,99 @@ namespace DOTweenModular2D.Editor
         public override void OnInspectorGUI()
         {
             EditorGUILayout.Space();
-                        
 
-            // Draw Life Time Settings
-            lifeTimeSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(lifeTimeSettingsFoldout, "Life Time Settings");
-            EditorPrefs.SetBool(savedLifeTimeSettingsFoldout, lifeTimeSettingsFoldout);
-            if (lifeTimeSettingsFoldout)
+            DrawTabs();
+
+            EditorGUILayout.Space();
+
+            if (tabStates[0])
             {
-                EditorGUI.indentLevel++;
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-                EditorGUILayout.BeginVertical("HelpBox");
-                EditorGUILayout.Space();
-
-                DrawLifeTimeSettings();
-
-                EditorGUILayout.Space();
-                EditorGUILayout.EndVertical();
-
-                EditorGUI.indentLevel--;
-            }
-            EditorGUILayout.EndFoldoutHeaderGroup();
-            DrawTweenObjectHelpBox();
-
-            
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);          
-           
-
-            // Draw Sequence Settings
-            sequenceSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(sequenceSettingsFoldout, "Sequence Settings");
-            EditorPrefs.SetBool(savedSequenceSettingsFoldout, sequenceSettingsFoldout);
-            if (sequenceSettingsFoldout)
-            {
-                EditorGUI.indentLevel++;
-
-                EditorGUILayout.BeginVertical("HelpBox");
-                EditorGUILayout.Space();
-
-                DrawSequenceSettings();
-
-                EditorGUILayout.Space();
-                EditorGUILayout.EndVertical();
-
-                EditorGUI.indentLevel--;
-            }
-            EditorGUILayout.EndFoldoutHeaderGroup();
-
-
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-
-            EditorGUILayout.PropertyField(sequenceTweensProp);
-            if (doSequence.sequenceTweens != null)
-            {
-                for (int i = 0; i < doSequence.sequenceTweens.Length; i++)
+                // Draw Life Time Settings
+                lifeTimeSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(lifeTimeSettingsFoldout, "Life Time Settings");
+                EditorPrefs.SetBool(savedLifeTimeSettingsFoldout, lifeTimeSettingsFoldout);
+                if (lifeTimeSettingsFoldout)
                 {
-                    DOBase currentTween = doSequence.sequenceTweens[i].tweenObject;
+                    EditorGUI.indentLevel++;
 
-                    if (currentTween != null)
-                        currentTween.begin = Begin.Manual;
-                    else
-                        EditorGUILayout.HelpBox("Element: " + i + " Tween Object is not assigned", MessageType.Error);
+                    EditorGUILayout.BeginVertical("HelpBox");
+                    EditorGUILayout.Space();
+
+                    DrawLifeTimeSettings();
+
+                    EditorGUILayout.Space();
+                    EditorGUILayout.EndVertical();
+
+                    EditorGUI.indentLevel--;
+                }
+                EditorGUILayout.EndFoldoutHeaderGroup();
+            }
+
+            DrawTweenObjectHelpBox();           
+            
+            if (tabStates[1])
+            {
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
+                // Draw Sequence Settings
+                sequenceSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(sequenceSettingsFoldout, "Sequence Settings");
+                EditorPrefs.SetBool(savedSequenceSettingsFoldout, sequenceSettingsFoldout);
+                if (sequenceSettingsFoldout)
+                {
+                    EditorGUI.indentLevel++;
+
+                    EditorGUILayout.BeginVertical("HelpBox");
+                    EditorGUILayout.Space();
+
+                    DrawSequenceSettings();
+
+                    EditorGUILayout.Space();
+                    EditorGUILayout.EndVertical();
+
+                    EditorGUI.indentLevel--;
+                }
+                EditorGUILayout.EndFoldoutHeaderGroup();
+            }
+
+            if (tabStates[2])
+            {
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+
+                EditorGUILayout.PropertyField(sequenceTweensProp);
+                if (doSequence.sequenceTweens != null)
+                {
+                    for (int i = 0; i < doSequence.sequenceTweens.Length; i++)
+                    {
+                        DOBase currentTween = doSequence.sequenceTweens[i].tweenObject;
+
+                        if (currentTween != null)
+                            currentTween.begin = Begin.Manual;
+                        else
+                            EditorGUILayout.HelpBox("Element: " + i + " Tween Object is not assigned", MessageType.Error);
+                    }
                 }
             }
 
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-
-            // Draw Events
-            eventsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(eventsFoldout, "Events");
-            EditorPrefs.SetBool(savedEventsFoldout, eventsFoldout);
-            if (eventsFoldout)
+            if (tabStates[3])
             {
-                EditorGUI.indentLevel++;
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-                EditorGUILayout.Space();
-                DrawEvents();
+                // Draw Events
+                eventsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(eventsFoldout, "Events");
+                EditorPrefs.SetBool(savedEventsFoldout, eventsFoldout);
+                if (eventsFoldout)
+                {
+                    EditorGUI.indentLevel++;
 
-                EditorGUI.indentLevel--;
+                    EditorGUILayout.Space();
+                    DrawEvents();
+
+                    EditorGUI.indentLevel--;
+                }
+                EditorGUILayout.EndFoldoutHeaderGroup();
+                                
             }
-            EditorGUILayout.EndFoldoutHeaderGroup();
 
             serializedObject.ApplyModifiedProperties();
 
@@ -275,6 +292,29 @@ namespace DOTweenModular2D.Editor
 
         #region Draw Functions
 
+        private void DrawTabs()
+        {
+            GUILayout.BeginHorizontal();
+
+            GUIStyle toggleStyle = new GUIStyle(EditorStyles.miniButton);
+            toggleStyle.fixedHeight = 30f;
+
+            string[] tabNames = new string[] { "Life", "Sequence", "Tweens", "Events" };
+
+            for (int i = 0; i < tabStates.Length; i++)
+            {
+                EditorGUI.BeginChangeCheck();
+                bool toggleState = GUILayout.Toggle(tabStates[i], tabNames[i], toggleStyle);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    tabStates[i] = toggleState;
+                    EditorPrefs.SetBool(savedTabStates[i], toggleState);
+                }
+            }
+
+            GUILayout.EndHorizontal();
+        }
+
         private void DrawSequenceSettings()
         {
             EditorGUILayout.PropertyField(tweenTypeProp);
@@ -301,11 +341,19 @@ namespace DOTweenModular2D.Editor
         {
             base.SetupSavedVariables(doSequence);
 
-            savedSequenceSettingsFoldout = "DOSequenceEditor_sequenceSettingsFoldout_" + doSequence.GetInstanceID();
+            int instanceId = doSequence.GetInstanceID();
+
+            savedSequenceSettingsFoldout = "DOSequenceEditor_sequenceSettingsFoldout_" + instanceId;
             sequenceSettingsFoldout = EditorPrefs.GetBool(savedSequenceSettingsFoldout, true);
 
-            savedJoin = "DOSequenceEditor_join_" + doSequence.GetInstanceID();
+            savedJoin = "DOSequenceEditor_join_" + instanceId;
             join = EditorPrefs.GetBool(savedJoin, false);
+
+            for (int i = 0; i < savedTabStates.Length; i++)
+            {
+                savedTabStates[i] = "DOSequenceEditor_tabStates_" + i + " " + instanceId;
+                tabStates[i] = EditorPrefs.GetBool(savedTabStates[i], true);
+            }
         }
 
         #endregion

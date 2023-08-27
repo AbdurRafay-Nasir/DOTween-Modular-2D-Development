@@ -25,6 +25,9 @@ namespace DOTweenModular2D.Editor
         private string savedRotateSettingsFoldout;
         private bool rotateSettingsFoldout = true;
 
+        private bool[] tabStates = new bool[5];
+        private string[] savedTabStates = new string[5];
+
         private void OnEnable()
         {
             doRotate = (DORotate)target;
@@ -37,109 +40,126 @@ namespace DOTweenModular2D.Editor
         {
             EditorGUILayout.Space();
 
-            // Draw Life Time Settings
-            lifeTimeSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(lifeTimeSettingsFoldout, "Life Time Settings");
-            EditorPrefs.SetBool(savedLifeTimeSettingsFoldout, lifeTimeSettingsFoldout);
-            if (lifeTimeSettingsFoldout)
+            DrawTabs();
+
+            EditorGUILayout.Space();
+
+            if (tabStates[0])
             {
-                EditorGUI.indentLevel++;
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-                EditorGUILayout.BeginVertical("HelpBox");
-                EditorGUILayout.Space();
+                // Draw Life Time Settings
+                lifeTimeSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(lifeTimeSettingsFoldout, "Life Time Settings");
+                EditorPrefs.SetBool(savedLifeTimeSettingsFoldout, lifeTimeSettingsFoldout);
+                if (lifeTimeSettingsFoldout)
+                {
+                    EditorGUI.indentLevel++;
 
-                DrawLifeTimeSettings();
+                    EditorGUILayout.BeginVertical("HelpBox");
+                    EditorGUILayout.Space();
 
-                EditorGUILayout.Space();
-                EditorGUILayout.EndVertical();
+                    DrawLifeTimeSettings();
 
-                EditorGUI.indentLevel--;
+                    EditorGUILayout.Space();
+                    EditorGUILayout.EndVertical();
+
+                    EditorGUI.indentLevel--;
+                }
+                EditorGUILayout.EndFoldoutHeaderGroup();
             }
-            EditorGUILayout.EndFoldoutHeaderGroup();
+
             DrawTweenObjectHelpBox();
 
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-            // Draw Type Settings
-            typeSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(typeSettingsFoldout, "Type Settings");
-            EditorPrefs.SetBool(savedTypeSettingsFoldout, typeSettingsFoldout);
-            if (typeSettingsFoldout)
+            if (tabStates[1])
             {
-                EditorGUI.indentLevel++;
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-                EditorGUILayout.BeginVertical("HelpBox");
-                EditorGUILayout.Space();
+                // Draw Type Settings
+                typeSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(typeSettingsFoldout, "Type Settings");
+                EditorPrefs.SetBool(savedTypeSettingsFoldout, typeSettingsFoldout);
+                if (typeSettingsFoldout)
+                {
+                    EditorGUI.indentLevel++;
 
-                DrawTypeSettings();
+                    EditorGUILayout.BeginVertical("HelpBox");
+                    EditorGUILayout.Space();
 
-                EditorGUILayout.Space();
-                EditorGUILayout.EndVertical();
+                    DrawTypeSettings();
 
-                EditorGUI.indentLevel--;
+                    EditorGUILayout.Space();
+                    EditorGUILayout.EndVertical();
+
+                    EditorGUI.indentLevel--;
+                }
+                EditorGUILayout.EndFoldoutHeaderGroup();
             }
-            EditorGUILayout.EndFoldoutHeaderGroup();
 
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-
-            // Draw Rotate Settings
-            rotateSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(rotateSettingsFoldout, "Rotate Settings");
-            EditorPrefs.SetBool(savedRotateSettingsFoldout, rotateSettingsFoldout);
-            if (rotateSettingsFoldout)
+            if (tabStates[2])
             {
-                EditorGUI.indentLevel++;
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-                EditorGUILayout.BeginVertical("HelpBox");
-                EditorGUILayout.Space();
+                // Draw Rotate Settings
+                rotateSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(rotateSettingsFoldout, "Rotate Settings");
+                EditorPrefs.SetBool(savedRotateSettingsFoldout, rotateSettingsFoldout);
+                if (rotateSettingsFoldout)
+                {
+                    EditorGUI.indentLevel++;
 
-                DrawRotateSettings();
+                    EditorGUILayout.BeginVertical("HelpBox");
+                    EditorGUILayout.Space();
 
-                EditorGUILayout.Space();
-                EditorGUILayout.EndVertical();
+                    DrawRotateSettings();
 
-                EditorGUI.indentLevel--;
+                    EditorGUILayout.Space();
+                    EditorGUILayout.EndVertical();
+
+                    EditorGUI.indentLevel--;
+                }
+                EditorGUILayout.EndFoldoutHeaderGroup();
             }
-            EditorGUILayout.EndFoldoutHeaderGroup();
 
-
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-
-            // Draw Values
-            valuesFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(valuesFoldout, "Values");
-            EditorPrefs.SetBool(savedValuesFoldout, valuesFoldout);
-            if (valuesFoldout)
+            if (tabStates[3])
             {
-                EditorGUI.indentLevel++;
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-                EditorGUILayout.BeginVertical("HelpBox");
-                EditorGUILayout.Space();
+                // Draw Values
+                valuesFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(valuesFoldout, "Values");
+                EditorPrefs.SetBool(savedValuesFoldout, valuesFoldout);
+                if (valuesFoldout)
+                {
+                    EditorGUI.indentLevel++;
 
-                DrawValues();
+                    EditorGUILayout.BeginVertical("HelpBox");
+                    EditorGUILayout.Space();
 
-                EditorGUILayout.Space();
-                EditorGUILayout.EndVertical();
+                    DrawValues();
 
-                EditorGUI.indentLevel--;
+                    EditorGUILayout.Space();
+                    EditorGUILayout.EndVertical();
+
+                    EditorGUI.indentLevel--;
+                }
+                EditorGUILayout.EndFoldoutHeaderGroup();
             }
-            EditorGUILayout.EndFoldoutHeaderGroup();
 
-
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-
-            // Draw Events
-            eventsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(eventsFoldout, "Events");
-            EditorPrefs.SetBool(savedEventsFoldout, eventsFoldout);
-            if (eventsFoldout)
+            if (tabStates[4])
             {
-                EditorGUI.indentLevel++;
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-                EditorGUILayout.Space();
-                DrawEvents();
+                // Draw Events
+                eventsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(eventsFoldout, "Events");
+                EditorPrefs.SetBool(savedEventsFoldout, eventsFoldout);
+                if (eventsFoldout)
+                {
+                    EditorGUI.indentLevel++;
 
-                EditorGUI.indentLevel--;
+                    EditorGUILayout.Space();
+                    DrawEvents();
+
+                    EditorGUI.indentLevel--;
+                }
+                EditorGUILayout.EndFoldoutHeaderGroup();
             }
-            EditorGUILayout.EndFoldoutHeaderGroup();
 
             serializedObject.ApplyModifiedProperties();
 
@@ -170,6 +190,29 @@ namespace DOTweenModular2D.Editor
         }
 
         #region Draw Functions
+
+        private void DrawTabs()
+        {
+            GUILayout.BeginHorizontal();
+
+            GUIStyle toggleStyle = new GUIStyle(EditorStyles.miniButton);
+            toggleStyle.fixedHeight = 30f;
+
+            string[] tabNames = new string[] { "Life", "Type", "Rotate", "Values", "Events" };
+
+            for (int i = 0; i < tabStates.Length; i++)
+            {
+                EditorGUI.BeginChangeCheck();
+                bool toggleState = GUILayout.Toggle(tabStates[i], tabNames[i], toggleStyle);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    tabStates[i] = toggleState;
+                    EditorPrefs.SetBool(savedTabStates[i], toggleState);
+                }
+            }
+
+            GUILayout.EndHorizontal();
+        }
 
         protected override void DrawTypeSettings()
         {
@@ -211,8 +254,16 @@ namespace DOTweenModular2D.Editor
         {
             base.SetupSavedVariables(dORotate);
 
-            savedRotateSettingsFoldout = "DORotateEditor_rotateSettingsFoldout_" + dORotate.GetInstanceID();
+            int instanceId = dORotate.GetInstanceID();
+
+            savedRotateSettingsFoldout = "DORotateEditor_rotateSettingsFoldout_" + instanceId;
             rotateSettingsFoldout = EditorPrefs.GetBool(savedRotateSettingsFoldout, true);
+
+            for (int i = 0; i < savedTabStates.Length; i++)
+            {
+                savedTabStates[i] = "DOScaleEditor_tabStates_" + i + " " + instanceId;
+                tabStates[i] = EditorPrefs.GetBool(savedTabStates[i], true);
+            }
         }
 
         #endregion
