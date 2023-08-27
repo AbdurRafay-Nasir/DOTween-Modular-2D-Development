@@ -34,11 +34,6 @@ namespace DOTweenModular2D.Enums
         Simple, Looped    
     }
 
-    public enum ApplyTo
-    {
-        Position, Rotation, Scale
-    }
-
     public enum LookAtPath
     {
         None, Position, Transform, Percentage
