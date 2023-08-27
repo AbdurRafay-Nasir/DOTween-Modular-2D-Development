@@ -48,7 +48,13 @@ namespace DOTweenModular2D.Editor
             {
                 EditorGUI.indentLevel++;
 
+                EditorGUILayout.BeginVertical("HelpBox");
+                EditorGUILayout.Space();
+
                 DrawLifeTimeSettings();
+
+                EditorGUILayout.Space();
+                EditorGUILayout.EndVertical();
 
                 EditorGUI.indentLevel--;
             }
@@ -64,7 +70,13 @@ namespace DOTweenModular2D.Editor
             {
                 EditorGUI.indentLevel++;
 
+                EditorGUILayout.BeginVertical("HelpBox");
+                EditorGUILayout.Space();
+
                 DrawTypeSettings();
+
+                EditorGUILayout.Space();
+                EditorGUILayout.EndVertical();
 
                 EditorGUI.indentLevel--;
             }
@@ -80,7 +92,13 @@ namespace DOTweenModular2D.Editor
             {
                 EditorGUI.indentLevel++;
 
+                EditorGUILayout.BeginVertical("HelpBox");
+                EditorGUILayout.Space();
+
                 DrawShakeSettings();
+
+                EditorGUILayout.Space();
+                EditorGUILayout.EndVertical();
 
                 EditorGUI.indentLevel--;
             }
@@ -97,7 +115,13 @@ namespace DOTweenModular2D.Editor
             {
                 EditorGUI.indentLevel++;
 
+                EditorGUILayout.BeginVertical("HelpBox");
+                EditorGUILayout.Space();
+
                 DrawValues();
+
+                EditorGUILayout.Space();
+                EditorGUILayout.EndVertical();
 
                 EditorGUI.indentLevel--;
             }
@@ -126,6 +150,8 @@ namespace DOTweenModular2D.Editor
 
             if (EditorApplication.isPlaying)
                 return;
+
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
             EditorGUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();

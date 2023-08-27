@@ -73,7 +73,13 @@ namespace DOTweenModular2D.Editor
             {
                 EditorGUI.indentLevel++;
 
+                EditorGUILayout.BeginVertical("HelpBox");
+                EditorGUILayout.Space();
+
                 DrawLifeTimeSettings();
+
+                EditorGUILayout.Space();
+                EditorGUILayout.EndVertical();
 
                 EditorGUI.indentLevel--;
             }
@@ -89,7 +95,13 @@ namespace DOTweenModular2D.Editor
             {
                 EditorGUI.indentLevel++;
 
+                EditorGUILayout.BeginVertical("HelpBox");
+                EditorGUILayout.Space();
+
                 DrawTypeSettings();
+
+                EditorGUILayout.Space();
+                EditorGUILayout.EndVertical();
 
                 EditorGUI.indentLevel--;
             }
@@ -105,7 +117,13 @@ namespace DOTweenModular2D.Editor
             {
                 EditorGUI.indentLevel++;
 
+                EditorGUILayout.BeginVertical("HelpBox");
+                EditorGUILayout.Space();
+
                 DrawMoveSettings();
+
+                EditorGUILayout.Space();
+                EditorGUILayout.EndVertical();
 
                 EditorGUI.indentLevel--;
             }
@@ -122,7 +140,13 @@ namespace DOTweenModular2D.Editor
             {
                 EditorGUI.indentLevel++;
 
+                EditorGUILayout.BeginVertical("HelpBox");
+                EditorGUILayout.Space();
+
                 DrawLookAtSettings();
+
+                EditorGUILayout.Space();
+                EditorGUILayout.EndVertical();
 
                 EditorGUI.indentLevel--;
             }
@@ -159,7 +183,13 @@ namespace DOTweenModular2D.Editor
             {
                 EditorGUI.indentLevel++;
 
+                EditorGUILayout.BeginVertical("HelpBox");
+                EditorGUILayout.Space();
+
                 DrawValues();
+
+                EditorGUILayout.Space();
+                EditorGUILayout.EndVertical();
 
                 EditorGUI.indentLevel--;
             }
@@ -195,9 +225,14 @@ namespace DOTweenModular2D.Editor
             {
                 EditorGUI.indentLevel++;
 
+                EditorGUILayout.BeginVertical("HelpBox");
+                EditorGUILayout.Space();
+
                 DrawEditorProperties();
 
                 EditorGUILayout.Space();
+                EditorGUILayout.EndVertical();
+
 
                 EditorGUI.indentLevel--;
             }

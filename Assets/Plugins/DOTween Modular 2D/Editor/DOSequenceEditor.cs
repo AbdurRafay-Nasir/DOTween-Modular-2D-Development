@@ -62,6 +62,7 @@ namespace DOTweenModular2D.Editor
         public override void OnInspectorGUI()
         {
             EditorGUILayout.Space();
+                        
 
             // Draw Life Time Settings
             lifeTimeSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(lifeTimeSettingsFoldout, "Life Time Settings");
@@ -70,30 +71,22 @@ namespace DOTweenModular2D.Editor
             {
                 EditorGUI.indentLevel++;
 
+                EditorGUILayout.BeginVertical("HelpBox");
+                EditorGUILayout.Space();
+
                 DrawLifeTimeSettings();
+
+                EditorGUILayout.Space();
+                EditorGUILayout.EndVertical();
 
                 EditorGUI.indentLevel--;
             }
             EditorGUILayout.EndFoldoutHeaderGroup();
             DrawTweenObjectHelpBox();
 
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-            // Draw Type Settings
-            typeSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(typeSettingsFoldout, "Type Settings");
-            EditorPrefs.SetBool(savedTypeSettingsFoldout, typeSettingsFoldout);
-            if (typeSettingsFoldout)
-            {
-                EditorGUI.indentLevel++;
-
-                DrawTypeSettings();
-
-                EditorGUI.indentLevel--;
-            }
-            EditorGUILayout.EndFoldoutHeaderGroup();
-
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
+            
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);          
+           
 
             // Draw Sequence Settings
             sequenceSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(sequenceSettingsFoldout, "Sequence Settings");
@@ -102,7 +95,13 @@ namespace DOTweenModular2D.Editor
             {
                 EditorGUI.indentLevel++;
 
+                EditorGUILayout.BeginVertical("HelpBox");
+                EditorGUILayout.Space();
+
                 DrawSequenceSettings();
+
+                EditorGUILayout.Space();
+                EditorGUILayout.EndVertical();
 
                 EditorGUI.indentLevel--;
             }
@@ -143,10 +142,12 @@ namespace DOTweenModular2D.Editor
             }
             EditorGUILayout.EndFoldoutHeaderGroup();
 
+            serializedObject.ApplyModifiedProperties();
+
+            if (EditorApplication.isPlaying)
+                return;
 
             EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-            serializedObject.ApplyModifiedProperties();
 
             EditorGUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
@@ -273,18 +274,6 @@ namespace DOTweenModular2D.Editor
         #endregion
 
         #region Draw Functions
-
-        protected override void DrawTypeSettings()
-        {
-            EditorGUILayout.PropertyField(beginProp);
-
-            if ((Begin)beginProp.enumValueIndex == Begin.With ||
-                (Begin)beginProp.enumValueIndex == Begin.After)
-            {
-                EditorGUILayout.PropertyField(tweenObjectProp);
-                EditorGUILayout.PropertyField(delayProp);
-            }
-        }
 
         private void DrawSequenceSettings()
         {
