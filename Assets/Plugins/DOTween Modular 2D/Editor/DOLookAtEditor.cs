@@ -30,6 +30,9 @@ namespace DOTweenModular2D.Editor
 
         private DOLookAt doLookAt;
 
+        private bool[] tabStates = new bool[4];
+        private string[] savedTabStates = new string[4];
+
         #region Unity Functions
 
         private void OnEnable()
@@ -44,45 +47,58 @@ namespace DOTweenModular2D.Editor
         {
             EditorGUILayout.Space();
 
-            // Draw Life Time Settings
-            lifeTimeSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(lifeTimeSettingsFoldout, "Life Time Settings");
-            EditorPrefs.SetBool(savedLifeTimeSettingsFoldout, lifeTimeSettingsFoldout);
-            if (lifeTimeSettingsFoldout)
+            DrawTabs();
+
+            EditorGUILayout.Space();
+
+            if (tabStates[0])
             {
-                EditorGUI.indentLevel++;
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-                EditorGUILayout.BeginVertical("HelpBox");
-                EditorGUILayout.Space();
+                // Draw Life Time Settings
+                lifeTimeSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(lifeTimeSettingsFoldout, "Life Time Settings");
+                EditorPrefs.SetBool(savedLifeTimeSettingsFoldout, lifeTimeSettingsFoldout);
+                if (lifeTimeSettingsFoldout)
+                {
+                    EditorGUI.indentLevel++;
 
-                DrawLifeTimeSettings();
+                    EditorGUILayout.BeginVertical("HelpBox");
+                    EditorGUILayout.Space();
 
-                EditorGUILayout.Space();
-                EditorGUILayout.EndVertical();
+                    DrawLifeTimeSettings();
 
-                EditorGUI.indentLevel--;
+                    EditorGUILayout.Space();
+                    EditorGUILayout.EndVertical();
+
+                    EditorGUI.indentLevel--;
+                }
+                EditorGUILayout.EndFoldoutHeaderGroup();
             }
-            EditorGUILayout.EndFoldoutHeaderGroup();
+
             DrawTweenObjectHelpBox();
 
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-            lookAtSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(lookAtSettingsFoldout, "LookAt Settings");
-            EditorPrefs.SetBool(savedLookAtSettingsFoldout, lookAtSettingsFoldout);
-            if (lookAtSettingsFoldout)
+            if (tabStates[1])
             {
-                EditorGUI.indentLevel++;
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-                EditorGUILayout.BeginVertical("HelpBox");
-                EditorGUILayout.Space();
+                lookAtSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(lookAtSettingsFoldout, "LookAt Settings");
+                EditorPrefs.SetBool(savedLookAtSettingsFoldout, lookAtSettingsFoldout);
+                if (lookAtSettingsFoldout)
+                {
+                    EditorGUI.indentLevel++;
 
-                DrawLookAtSettings();
+                    EditorGUILayout.BeginVertical("HelpBox");
+                    EditorGUILayout.Space();
 
-                EditorGUILayout.Space();
-                EditorGUILayout.EndVertical();
+                    DrawLookAtSettings();
 
-                EditorGUI.indentLevel--;
+                    EditorGUILayout.Space();
+                    EditorGUILayout.EndVertical();
+
+                    EditorGUI.indentLevel--;
+                }
+                EditorGUILayout.EndFoldoutHeaderGroup();
             }
-            EditorGUILayout.EndFoldoutHeaderGroup();
 
             if (doLookAt.lookAt == Enums.LookAtSimple.Transform && doLookAt.lookAtTarget == null)
             {
@@ -105,45 +121,48 @@ namespace DOTweenModular2D.Editor
                 EditorGUILayout.EndHorizontal();
             }
 
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-            // Draw Values
-            valuesFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(valuesFoldout, "Values");
-            EditorPrefs.SetBool(savedValuesFoldout, valuesFoldout);
-            if (valuesFoldout)
+            if (tabStates[2])
             {
-                EditorGUI.indentLevel++;
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-                EditorGUILayout.BeginVertical("HelpBox");
-                EditorGUILayout.Space();
+                // Draw Values
+                valuesFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(valuesFoldout, "Values");
+                EditorPrefs.SetBool(savedValuesFoldout, valuesFoldout);
+                if (valuesFoldout)
+                {
+                    EditorGUI.indentLevel++;
 
-                DrawValues();
+                    EditorGUILayout.BeginVertical("HelpBox");
+                    EditorGUILayout.Space();
 
-                EditorGUILayout.Space();
-                EditorGUILayout.EndVertical();
+                    DrawValues();
 
-                EditorGUI.indentLevel--;
+                    EditorGUILayout.Space();
+                    EditorGUILayout.EndVertical();
+
+                    EditorGUI.indentLevel--;
+                }
+                EditorGUILayout.EndFoldoutHeaderGroup();
             }
-            EditorGUILayout.EndFoldoutHeaderGroup();
 
-
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-
-            // Draw Events
-            eventsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(eventsFoldout, "Events");
-            EditorPrefs.SetBool(savedEventsFoldout, eventsFoldout);
-            if (eventsFoldout)
+            if (tabStates[3])
             {
-                EditorGUI.indentLevel++;
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-                EditorGUILayout.Space();
-                DrawEvents();
+                // Draw Events
+                eventsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(eventsFoldout, "Events");
+                EditorPrefs.SetBool(savedEventsFoldout, eventsFoldout);
+                if (eventsFoldout)
+                {
+                    EditorGUI.indentLevel++;
 
-                EditorGUI.indentLevel--;
+                    EditorGUILayout.Space();
+                    DrawEvents();
+
+                    EditorGUI.indentLevel--;
+                }
+                EditorGUILayout.EndFoldoutHeaderGroup();
             }
-            EditorGUILayout.EndFoldoutHeaderGroup();
-
 
             serializedObject.ApplyModifiedProperties();
 
@@ -236,6 +255,29 @@ namespace DOTweenModular2D.Editor
 
         #region Inspector Draw Functions
 
+        private void DrawTabs()
+        {
+            GUILayout.BeginHorizontal();
+
+            GUIStyle toggleStyle = new GUIStyle(EditorStyles.miniButton);
+            toggleStyle.fixedHeight = 30f;
+
+            string[] tabNames = new string[] { "Life", "Look At", "Values", "Events" };
+
+            for (int i = 0; i < tabStates.Length; i++)
+            {
+                EditorGUI.BeginChangeCheck();
+                bool toggleState = GUILayout.Toggle(tabStates[i], tabNames[i], toggleStyle);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    tabStates[i] = toggleState;
+                    EditorPrefs.SetBool(savedTabStates[i], toggleState);
+                }
+            }
+
+            GUILayout.EndHorizontal();
+        }
+
         protected override void DrawValues()
         {
             EditorGUILayout.PropertyField(delayProp);
@@ -288,8 +330,14 @@ namespace DOTweenModular2D.Editor
 
             int instanceId = doLookAt.GetInstanceID();
 
-            savedLookAtSettingsFoldout = "DOMoveEditor_lookAtSettingsFoldout_" + instanceId;
+            savedLookAtSettingsFoldout = "DOLookAtEditor_lookAtSettingsFoldout_" + instanceId;
             lookAtSettingsFoldout = EditorPrefs.GetBool(savedLookAtSettingsFoldout, true);
+
+            for (int i = 0; i < savedTabStates.Length; i++)
+            {
+                savedTabStates[i] = "DOLookAtEditor_tabStates_" + i + " " + instanceId;
+                tabStates[i] = EditorPrefs.GetBool(savedTabStates[i], true);
+            }
         }
 
         #endregion
