@@ -52,6 +52,9 @@ namespace DOTweenModular2D.Editor
         private DOJump doJump;
         private Vector2 beginPosition;
 
+        private bool[] tabStates = new bool[6];
+        private string[] savedTabStates = new string[6];
+
         #region Unity Functions
 
         private void OnEnable()
@@ -67,91 +70,107 @@ namespace DOTweenModular2D.Editor
         {
             EditorGUILayout.Space();
 
-            // Draw Life Time Settings
-            lifeTimeSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(lifeTimeSettingsFoldout, "Life Time Settings");
-            EditorPrefs.SetBool(savedLifeTimeSettingsFoldout, lifeTimeSettingsFoldout);
-            if (lifeTimeSettingsFoldout)
+            DrawTabs();
+
+            EditorGUILayout.Space();
+
+            if (tabStates[0])
             {
-                EditorGUI.indentLevel++;
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-                EditorGUILayout.BeginVertical("HelpBox");
-                EditorGUILayout.Space();
+                // Draw Life Time Settings
+                lifeTimeSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(lifeTimeSettingsFoldout, "Life Time Settings");
+                EditorPrefs.SetBool(savedLifeTimeSettingsFoldout, lifeTimeSettingsFoldout);
+                if (lifeTimeSettingsFoldout)
+                {
+                    EditorGUI.indentLevel++;
 
-                DrawLifeTimeSettings();
+                    EditorGUILayout.BeginVertical("HelpBox");
+                    EditorGUILayout.Space();
 
-                EditorGUILayout.Space();
-                EditorGUILayout.EndVertical();
+                    DrawLifeTimeSettings();
 
-                EditorGUI.indentLevel--;
+                    EditorGUILayout.Space();
+                    EditorGUILayout.EndVertical();
+
+                    EditorGUI.indentLevel--;
+                }
+                EditorGUILayout.EndFoldoutHeaderGroup();
             }
-            EditorGUILayout.EndFoldoutHeaderGroup();
+
             DrawTweenObjectHelpBox();
 
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-            // Draw Type Settings
-            typeSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(typeSettingsFoldout, "Type Settings");
-            EditorPrefs.SetBool(savedTypeSettingsFoldout, typeSettingsFoldout);
-            if (typeSettingsFoldout)
+            if (tabStates[1])
             {
-                EditorGUI.indentLevel++;
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
+                
+                // Draw Type Settings
+                typeSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(typeSettingsFoldout, "Type Settings");
+                EditorPrefs.SetBool(savedTypeSettingsFoldout, typeSettingsFoldout);
+                if (typeSettingsFoldout)
+                {
+                    EditorGUI.indentLevel++;
 
-                EditorGUILayout.BeginVertical("HelpBox");
-                EditorGUILayout.Space();
+                    EditorGUILayout.BeginVertical("HelpBox");
+                    EditorGUILayout.Space();
 
-                DrawTypeSettings();
+                    DrawTypeSettings();
 
-                EditorGUILayout.Space();
-                EditorGUILayout.EndVertical();
+                    EditorGUILayout.Space();
+                    EditorGUILayout.EndVertical();
 
-                EditorGUI.indentLevel--;
+                    EditorGUI.indentLevel--;
+                }
+                EditorGUILayout.EndFoldoutHeaderGroup();
             }
-            EditorGUILayout.EndFoldoutHeaderGroup();
 
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-
-            // Draw Move Settings
-            jumpSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(jumpSettingsFoldout, "Jump Settings");
-            EditorPrefs.SetBool(savedJumpSettingsFoldout, jumpSettingsFoldout);
-            if (jumpSettingsFoldout)
+            if (tabStates[2])
             {
-                EditorGUI.indentLevel++;
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-                EditorGUILayout.BeginVertical("HelpBox");
-                EditorGUILayout.Space();
+                // Draw Move Settings
+                jumpSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(jumpSettingsFoldout, "Jump Settings");
+                EditorPrefs.SetBool(savedJumpSettingsFoldout, jumpSettingsFoldout);
+                if (jumpSettingsFoldout)
+                {
+                    EditorGUI.indentLevel++;
 
-                DrawJumpSettings();
+                    EditorGUILayout.BeginVertical("HelpBox");
+                    EditorGUILayout.Space();
 
-                EditorGUILayout.Space();
-                EditorGUILayout.EndVertical();
+                    DrawJumpSettings();
 
-                EditorGUI.indentLevel--;
+                    EditorGUILayout.Space();
+                    EditorGUILayout.EndVertical();
+
+                    EditorGUI.indentLevel--;
+                }
+                EditorGUILayout.EndFoldoutHeaderGroup();
             }
-            EditorGUILayout.EndFoldoutHeaderGroup();
 
-
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-
-            // Draw LookAt Settings
-            lookAtSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(lookAtSettingsFoldout, "LookAt Settings");
-            EditorPrefs.SetBool(savedLookAtSettingsFoldout, lookAtSettingsFoldout);
-            if (lookAtSettingsFoldout)
+            if (tabStates[3])
             {
-                EditorGUI.indentLevel++;
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-                EditorGUILayout.BeginVertical("HelpBox");
-                EditorGUILayout.Space();
+                // Draw LookAt Settings
+                lookAtSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(lookAtSettingsFoldout, "LookAt Settings");
+                EditorPrefs.SetBool(savedLookAtSettingsFoldout, lookAtSettingsFoldout);
+                if (lookAtSettingsFoldout)
+                {
+                    EditorGUI.indentLevel++;
 
-                DrawLookAtSettings();
+                    EditorGUILayout.BeginVertical("HelpBox");
+                    EditorGUILayout.Space();
 
-                EditorGUILayout.Space();
-                EditorGUILayout.EndVertical();
+                    DrawLookAtSettings();
 
-                EditorGUI.indentLevel--;
+                    EditorGUILayout.Space();
+                    EditorGUILayout.EndVertical();
+
+                    EditorGUI.indentLevel--;
+                }
+                EditorGUILayout.EndFoldoutHeaderGroup();
             }
-            EditorGUILayout.EndFoldoutHeaderGroup();
 
             if (doJump.lookAt == LookAtSimple.Transform && doJump.lookAtTarget == null)
             {
@@ -174,52 +193,55 @@ namespace DOTweenModular2D.Editor
                 EditorGUILayout.EndHorizontal();
             }
 
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-
-            // Draw Values
-            valuesFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(valuesFoldout, "Values");
-            EditorPrefs.SetBool(savedValuesFoldout, valuesFoldout);
-            if (valuesFoldout)
+            if (tabStates[4])
             {
-                EditorGUI.indentLevel++;
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-                EditorGUILayout.BeginVertical("HelpBox");
-                EditorGUILayout.Space();
+                // Draw Values
+                valuesFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(valuesFoldout, "Values");
+                EditorPrefs.SetBool(savedValuesFoldout, valuesFoldout);
+                if (valuesFoldout)
+                {
+                    EditorGUI.indentLevel++;
 
-                DrawValues();
+                    EditorGUILayout.BeginVertical("HelpBox");
+                    EditorGUILayout.Space();
 
-                EditorGUILayout.Space();
-                EditorGUILayout.EndVertical();
+                    DrawValues();
 
-                EditorGUI.indentLevel--;
+                    EditorGUILayout.Space();
+                    EditorGUILayout.EndVertical();
+
+                    EditorGUI.indentLevel--;
+                }
+                EditorGUILayout.EndFoldoutHeaderGroup();
             }
-            EditorGUILayout.EndFoldoutHeaderGroup();
 
-
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
-
-
-            // Draw Events
-            eventsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(eventsFoldout, "Events");
-            EditorPrefs.SetBool(savedEventsFoldout, eventsFoldout);
-            if (eventsFoldout)
+            if (tabStates[5])
             {
-                EditorGUI.indentLevel++;
+                EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-                EditorGUILayout.Space();
-                DrawEvents();
+                // Draw Events
+                eventsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(eventsFoldout, "Events");
+                EditorPrefs.SetBool(savedEventsFoldout, eventsFoldout);
+                if (eventsFoldout)
+                {
+                    EditorGUI.indentLevel++;
 
-                EditorGUI.indentLevel--;
+                    EditorGUILayout.Space();
+                    DrawEvents();
+
+                    EditorGUI.indentLevel--;
+                }
+                EditorGUILayout.EndFoldoutHeaderGroup();
             }
-            EditorGUILayout.EndFoldoutHeaderGroup();
-
-            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
             serializedObject.ApplyModifiedProperties();
 
             if (EditorApplication.isPlaying)
                 return;
+            
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
             EditorGUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
@@ -403,6 +425,29 @@ namespace DOTweenModular2D.Editor
 
         #region Draw Inspector Functions
 
+        private void DrawTabs()
+        {
+            GUILayout.BeginHorizontal();
+
+            GUIStyle toggleStyle = new GUIStyle(EditorStyles.miniButton);
+            toggleStyle.fixedHeight = 30f;
+
+            string[] tabNames = new string[] { "Life", "Type", "Jump", "Look At", "Values", "Events" };
+
+            for (int i = 0; i < tabStates.Length; i++)
+            {
+                EditorGUI.BeginChangeCheck();
+                bool toggleState = GUILayout.Toggle(tabStates[i], tabNames[i], toggleStyle);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    tabStates[i] = toggleState;
+                    EditorPrefs.SetBool(savedTabStates[i], toggleState);
+                }
+            }
+
+            GUILayout.EndHorizontal();
+        }
+
         private void DrawJumpSettings()
         {
             EditorGUILayout.PropertyField(jumpPowerProp);
@@ -460,8 +505,14 @@ namespace DOTweenModular2D.Editor
             savedFirstTimeRelative = "DOMoveEditor_firstTimeRelative_" + instanceId;
             firstTimeRelative = EditorPrefs.GetBool(savedFirstTimeRelative, true);
 
-            savedJumpSettingsFoldout = "doJumpEditor_moveSettingsFoldout_" + instanceId;
+            savedJumpSettingsFoldout = "DoJumpEditor_jumpSettingsFoldout_" + instanceId;
             jumpSettingsFoldout = EditorPrefs.GetBool(savedJumpSettingsFoldout, true);
+
+            for (int i = 0; i < savedTabStates.Length; i++)
+            {
+                savedTabStates[i] = "DOJumpEditor_tabStates_" + i + " " + instanceId;
+                tabStates[i] = EditorPrefs.GetBool(savedTabStates[i], true);
+            }
         }
 
         protected override void SetupSerializedProperties()
