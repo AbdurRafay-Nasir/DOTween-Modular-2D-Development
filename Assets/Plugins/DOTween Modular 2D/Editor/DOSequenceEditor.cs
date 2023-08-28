@@ -203,13 +203,15 @@ namespace DOTweenModular2D.Editor
 
             Handles.color = Color.yellow;
 
-            DrawLinesToSequenceTweens();
+            DrawLinesAndLabelToSequenceTweens();
         }
 
         #endregion
 
-        private void DrawLinesToSequenceTweens()
+        private void DrawLinesAndLabelToSequenceTweens()
         {
+            int k = 1;
+
             Vector2 startPosition = doSequence.transform.position;
 
             for (int i = 0; i < doSequence.sequenceTweens.Length; i++)
@@ -218,7 +220,20 @@ namespace DOTweenModular2D.Editor
                 if (sequenceTweenObj == null)
                     continue;
 
-                Handles.DrawLine(startPosition, sequenceTweenObj.transform.position);
+                Vector2 sequenceTweenObjPos = sequenceTweenObj.transform.position;
+
+                Handles.DrawLine(startPosition, sequenceTweenObjPos);
+
+                Vector2 midPoint = (startPosition + sequenceTweenObjPos) * 0.5f;
+
+                Handles.Label(midPoint, k.ToString());
+
+                if (i + 1 < doSequence.sequenceTweens.Length &&
+                    doSequence.sequenceTweens[i + 1].tweenObject != null &&
+                    !doSequence.sequenceTweens[i + 1].join)
+                {
+                    k++;
+                }
             }
         }
 
