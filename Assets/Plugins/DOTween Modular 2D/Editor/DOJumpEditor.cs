@@ -50,7 +50,6 @@ namespace DOTweenModular2D.Editor
         #endregion
 
         private DOJump doJump;
-        private Vector2 beginPosition;
 
         private bool[] tabStates = new bool[6];
         private string[] savedTabStates = new string[6];
@@ -60,7 +59,6 @@ namespace DOTweenModular2D.Editor
         private void OnEnable()
         {
             doJump = (DOJump)target;
-            beginPosition = doJump.transform.position;
 
             SetupSerializedProperties();
             SetupSavedVariables(doJump);

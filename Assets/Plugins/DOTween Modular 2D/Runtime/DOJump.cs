@@ -25,7 +25,7 @@ namespace DOTweenModular2D
         public float jumpPower;
 
         [Tooltip("Number of Jumps")]
-        [Min(1)] public int jumps;
+        [Min(0)] public int jumps;
 
         #region Look At Properties
 
