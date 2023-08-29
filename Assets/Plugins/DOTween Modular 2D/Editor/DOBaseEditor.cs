@@ -40,6 +40,8 @@ namespace DOTweenModular2D.Editor
         private Quaternion rotationBeforePreview;
         private Vector3 scaleBeforePreview;
 
+        private Kill killTypeBeforePreview;
+
         protected const float buttonSize = 40;
 
         #region Handle Properties
@@ -213,6 +215,38 @@ namespace DOTweenModular2D.Editor
         }
 
         /// <summary>
+        /// Draws Helpbox for Inspector messages regarding tweenObject and Begin property
+        /// </summary>
+        protected void DrawTweenObjectHelpBox()
+        {
+            if ((Begin)beginProp.enumValueIndex == Begin.After ||
+                (Begin)beginProp.enumValueIndex == Begin.With)
+            {
+                if (tweenObjectProp.objectReferenceValue == null)
+                    EditorGUILayout.HelpBox("Tween Object is not assigned", MessageType.Error);
+            }
+            else
+            {
+                if (tweenObjectProp.objectReferenceValue != null)
+                {
+                    EditorGUILayout.BeginHorizontal();
+
+                    EditorGUILayout.HelpBox("Tween Object is assigned, it should be removed", MessageType.Warning);
+
+                    GUIContent trashButton = EditorGUIUtility.IconContent("TreeEditor.Trash");
+                    trashButton.tooltip = "Remove Tween Object";
+
+                    if (GUILayout.Button(trashButton, GUILayout.Height(buttonSize), GUILayout.Width(buttonSize * 2f)))
+                    {
+                        tweenObjectProp.objectReferenceValue = null;
+                    }
+
+                    EditorGUILayout.EndHorizontal();
+                }
+            }
+        }
+
+        /// <summary>
         /// Draws tweenType loopType (if tweenType = Looped), <br/> 
         /// easeType, curve(if easeType = INTERNAL_Custom)
         /// </summary>
@@ -370,7 +404,9 @@ namespace DOTweenModular2D.Editor
             {
                 DOTweenEditorPreview.Stop(true);
                 ClearTweenCallbacks();
-                ApplySavedTransform();
+                ApplySavedValues();
+
+                doBase.kill = killTypeBeforePreview;
             }
 
             // if tween is not previewing enable playButton
@@ -380,9 +416,12 @@ namespace DOTweenModular2D.Editor
                 SaveDefaultTransform();
                 TweenPreviewing = true;
 
+                killTypeBeforePreview = doBase.kill;
+                doBase.kill = Kill.Manual;
+
                 doBase.CreateTween();
-                doBase.Tween.onComplete += ClearTweenCallbacks;
-                doBase.Tween.onComplete += ApplySavedTransform;
+                doBase.Tween.onKill += ApplySavedValues;
+                doBase.Tween.onKill += ClearTweenCallbacks;
                 DOTweenEditorPreview.PrepareTweenForPreview(doBase.Tween, false, false);
                 DOTweenEditorPreview.Start();
             }
@@ -390,7 +429,6 @@ namespace DOTweenModular2D.Editor
 
         private void ClearTweenCallbacks()
         {
-            doBase.Tween.OnComplete(null);
             doBase.Tween.OnKill(null);
             doBase.Tween.OnPause(null);
             doBase.Tween.OnPlay(null);
@@ -399,15 +437,18 @@ namespace DOTweenModular2D.Editor
             doBase.Tween.OnStepComplete(null);
             doBase.Tween.OnUpdate(null);
             doBase.Tween.OnWaypointChange(null);
-
-            TweenPreviewing = false;
+            doBase.Tween.OnComplete(null);
         }
 
-        private void ApplySavedTransform()
+        private void ApplySavedValues()
         {
             doBase.transform.position = positionBeforePreview;
             doBase.transform.rotation = rotationBeforePreview;
             doBase.transform.localScale = scaleBeforePreview;
+
+            TweenPreviewing = false;
+
+            doBase.kill = killTypeBeforePreview;
         }
 
         private void SaveDefaultTransform()
@@ -418,38 +459,6 @@ namespace DOTweenModular2D.Editor
         }
 
         #endregion
-
-        /// <summary>
-        /// Draws Helpbox for Inspector messages regarding tweenObject and Begin property
-        /// </summary>
-        protected void DrawTweenObjectHelpBox()
-        {
-            if ((Begin)beginProp.enumValueIndex == Begin.After ||
-                (Begin)beginProp.enumValueIndex == Begin.With)
-            {
-                if (tweenObjectProp.objectReferenceValue == null)
-                    EditorGUILayout.HelpBox("Tween Object is not assigned", MessageType.Error);
-            }
-            else
-            {
-                if (tweenObjectProp.objectReferenceValue != null)
-                {
-                    EditorGUILayout.BeginHorizontal();
-
-                    EditorGUILayout.HelpBox("Tween Object is assigned, it should be removed", MessageType.Warning);
-
-                    GUIContent trashButton = EditorGUIUtility.IconContent("TreeEditor.Trash");
-                    trashButton.tooltip = "Remove Tween Object";
-
-                    if (GUILayout.Button(trashButton, GUILayout.Height(buttonSize), GUILayout.Width(buttonSize * 2f)))
-                    {
-                        tweenObjectProp.objectReferenceValue = null;
-                    }
-
-                    EditorGUILayout.EndHorizontal();
-                }
-            }
-        }
 
     }
 

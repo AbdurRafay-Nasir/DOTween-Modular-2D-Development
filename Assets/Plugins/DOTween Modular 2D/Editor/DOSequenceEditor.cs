@@ -16,6 +16,8 @@ namespace DOTweenModular2D.Editor
         private DOSequence doSequence;
         private bool tweenPreviewing;
 
+        private Kill killTypeBeforePreview;
+
         private SavedTransforms[] savedTransforms;
 
         private bool[] tabStates = new bool[4];
@@ -247,7 +249,9 @@ namespace DOTweenModular2D.Editor
             {
                 DOTweenEditorPreview.Stop(true);
                 ClearTweenCallbacks();
-                ApplySavedTransforms();
+                ApplySavedValues();
+
+                doSequence.kill = killTypeBeforePreview;
             }
 
             // if tween is not previewing enable playButton
@@ -258,9 +262,12 @@ namespace DOTweenModular2D.Editor
 
                 tweenPreviewing = true;
 
+                killTypeBeforePreview = doSequence.kill;
+                doSequence.kill = Kill.Manual;
+
                 doSequence.CreateTween();
-                doSequence.Tween.onComplete += ClearTweenCallbacks;
-                doSequence.Tween.onComplete += ApplySavedTransforms;
+                doSequence.Tween.onKill += ApplySavedValues;
+                doSequence.Tween.onKill += ClearTweenCallbacks;
                 DOTweenEditorPreview.PrepareTweenForPreview(doSequence.Tween, false, false);
                 DOTweenEditorPreview.Start();
             }
@@ -268,8 +275,6 @@ namespace DOTweenModular2D.Editor
 
         private void ClearTweenCallbacks()
         {
-            doSequence.Tween.OnComplete(null);
-            doSequence.Tween.OnKill(null);
             doSequence.Tween.OnPause(null);
             doSequence.Tween.OnPlay(null);
             doSequence.Tween.OnRewind(null);
@@ -277,8 +282,8 @@ namespace DOTweenModular2D.Editor
             doSequence.Tween.OnStepComplete(null);
             doSequence.Tween.OnUpdate(null);
             doSequence.Tween.OnWaypointChange(null);
-
-            tweenPreviewing = false;
+            doSequence.Tween.OnComplete(null);
+            doSequence.Tween.OnKill(null);
         }
 
         private void SetupSavedTransforms()
@@ -293,7 +298,7 @@ namespace DOTweenModular2D.Editor
             }
         }
 
-        private void ApplySavedTransforms()
+        private void ApplySavedValues()
         {
             for (int i = 0; i < savedTransforms.Length; i++)
             {
@@ -301,6 +306,10 @@ namespace DOTweenModular2D.Editor
                 doSequence.sequenceTweens[i].tweenObject.transform.rotation = savedTransforms[i].rotation;
                 doSequence.sequenceTweens[i].tweenObject.transform.localScale = savedTransforms[i].scale;
             }
+
+            tweenPreviewing = false;
+
+            doSequence.kill = killTypeBeforePreview;
         }
 
         #endregion

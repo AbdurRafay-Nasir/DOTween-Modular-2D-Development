@@ -7,6 +7,8 @@ namespace DOTweenModular2D
 {
     public abstract class DOBase : MonoBehaviour
     {
+        #region Properties
+
         [Tooltip("When this tween should start")]
         public Begin begin;
 
@@ -42,6 +44,10 @@ namespace DOTweenModular2D
         [Tooltip("How long this tween will play")]
         [Min(0)] public float duration = 1;
 
+        #endregion
+
+        #region Unity Events
+
         // Events
         /// <summary>
         /// Called when this tween is created
@@ -57,6 +63,8 @@ namespace DOTweenModular2D
         /// Called when this tween is Killed, in-case of infinite loops this will not invoke
         /// </summary>
         public UnityEvent<DOBase> onTweenKilled;
+
+        #endregion
 
         /// <summary>
         /// Must assign this to custom tween that you create 
@@ -168,6 +176,7 @@ namespace DOTweenModular2D
             if (kill == Kill.OnTweenComplete)
             {
                 onTweenKilled?.Invoke(this);
+
                 ClearTweenCallbacks();
                 tween.Kill();
                 tween = null;
@@ -195,15 +204,15 @@ namespace DOTweenModular2D
 
         private void ClearTweenCallbacks()
         {
-            Tween.OnComplete(null);
-            Tween.OnKill(null);
-            Tween.OnPause(null);
-            Tween.OnPlay(null);
-            Tween.OnRewind(null);
-            Tween.OnStart(null);
-            Tween.OnStepComplete(null);
-            Tween.OnUpdate(null);
-            Tween.OnWaypointChange(null);
+            tween.OnPause(null);
+            tween.OnPlay(null);
+            tween.OnRewind(null);
+            tween.OnStart(null);
+            tween.OnStepComplete(null);
+            tween.OnUpdate(null);
+            tween.OnWaypointChange(null);
+            tween.OnComplete(null);
+            tween.OnKill(null);
         }
     }
 }
