@@ -303,7 +303,7 @@ namespace DOTweenModular2D.Editor
                 startPosition = doMove.transform.position;
 
             Vector3 handlePosition = CalculateTargetPosition(startPosition);
-            DrawTargetLineAndSphere(startPosition, handlePosition, lineColor);
+            DrawTargetLineAndSphere(startPosition, handlePosition, handleColor, lineColor);
 
             if (doMove.lookAt != LookAtSimple.None)
             {
@@ -380,11 +380,12 @@ namespace DOTweenModular2D.Editor
 
         #region Draw Functions
 
-        private void DrawTargetLineAndSphere(Vector3 startPosition, Vector3 endPosition, Color lineColor)
+        private void DrawTargetLineAndSphere(Vector3 startPosition, Vector3 endPosition, Color handleColor, Color lineColor)
         {
-            Handles.color = lineColor;
-
+            Handles.color = handleColor;
             Handles.SphereHandleCap(2, endPosition, Quaternion.identity, currentHandleRadius, EventType.Repaint);
+
+            Handles.color = lineColor;
             Handles.DrawLine(startPosition, endPosition, currentLineWidth);
         }
 

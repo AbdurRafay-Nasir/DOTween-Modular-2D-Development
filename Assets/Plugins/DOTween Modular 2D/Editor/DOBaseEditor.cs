@@ -60,33 +60,35 @@ namespace DOTweenModular2D.Editor
 
         protected Color[] color = new Color[]
         {
-        Color.black,
-        Color.blue,
-        Color.clear,
-        Color.cyan,
-        Color.gray,
-        Color.green,
-        Color.magenta,
-        Color.red,
-        Color.white,
-        Color.yellow,
+            Color.black,
+            Color.blue,
+            Color.clear,
+            Color.cyan,
+            Color.gray,
+            Color.green,
+            Color.magenta,
+            Color.red,
+            Color.white,
+            Color.yellow,
         };
 
         private string[] colorDropdown = new string[]
         {
-        "Black",
-        "Blue",
-        "Clear",
-        "Cyan",
-        "Gray",
-        "Green",
-        "Magenta",
-        "Red",
-        "White",
-        "Yellow"
+            "Black",
+            "Blue",
+            "Clear",
+            "Cyan",
+            "Gray",
+            "Green",
+            "Magenta",
+            "Red",
+            "White",
+            "Yellow"
         };
 
         private string[] handleDropdown = new string[] { "Position", "Free" };
+
+        private EditorProperties editorProperties;
 
         #endregion
 
@@ -143,6 +145,7 @@ namespace DOTweenModular2D.Editor
         protected virtual void SetupSavedVariables(DOBase doBase)
         {
             this.doBase = doBase;
+            editorProperties = CreateInstance<EditorProperties>();
 
             SetupSavedVariablesPath(doBase);
 
@@ -181,11 +184,11 @@ namespace DOTweenModular2D.Editor
             editorFoldout = EditorPrefs.GetBool(savedEditorFoldout, false);
 
             // Apply saved values to Editor Properties
-            currentHandleIndex = EditorPrefs.GetInt(savedHandleIndex, 0);
-            currentHandleColorIndex = EditorPrefs.GetInt(savedHandleColorIndex, 5);
-            currentLineColorIndex = EditorPrefs.GetInt(savedLineColorIndex, 5);
-            currentHandleRadius = EditorPrefs.GetFloat(savedHandleRadius, 0.5f);
-            currentLineWidth = EditorPrefs.GetFloat(savedLineWidth, 1f);
+            editorProperties.handleIndex = EditorPrefs.GetInt(savedHandleIndex, 0);
+            editorProperties.handleColorIndex = EditorPrefs.GetInt(savedHandleColorIndex, 5);
+            editorProperties.handleRadius = EditorPrefs.GetFloat(savedHandleRadius, 0.5f);
+            editorProperties.lineColorIndex = EditorPrefs.GetInt(savedLineColorIndex, 5);
+            editorProperties.lineWidth = EditorPrefs.GetFloat(savedLineWidth, 1f);
 
             // Apply saved values to Inspector Button Properties
             editPath = EditorPrefs.GetBool(savedEditPath, true);
@@ -296,30 +299,52 @@ namespace DOTweenModular2D.Editor
         /// </summary>
         protected void DrawEditorProperties()
         {
-            currentHandleIndex = EditorGUILayout.Popup("Handle", currentHandleIndex, handleDropdown);
-            EditorPrefs.SetInt(savedHandleIndex, currentHandleIndex);
-
-            currentHandleColorIndex = EditorGUILayout.Popup("Handle Color", currentHandleColorIndex, colorDropdown);
-            EditorPrefs.SetInt(savedHandleColorIndex, currentHandleColorIndex);
-
-            EditorGUI.BeginChangeCheck();
-            currentHandleRadius = EditorGUILayout.Slider("Handle Radius", currentHandleRadius, 0.5f, 3f);
-            EditorPrefs.SetFloat(savedHandleRadius, currentHandleRadius);
-
-            if (EditorGUI.EndChangeCheck())
+            currentHandleIndex = EditorGUILayout.Popup("Handle", editorProperties.handleIndex, handleDropdown);
+            if (currentHandleIndex != editorProperties.handleIndex)
             {
+                Undo.RecordObject(editorProperties, "handleIndex");
+                editorProperties.handleIndex = currentHandleIndex;
+
+                EditorPrefs.SetInt(savedHandleIndex, currentHandleIndex);
+            }
+
+            currentHandleColorIndex = EditorGUILayout.Popup("Handle Color", editorProperties.handleColorIndex, colorDropdown);
+            if (currentHandleColorIndex != editorProperties.handleColorIndex)
+            {
+                Undo.RecordObject(editorProperties, "handleColorIndex");
+                editorProperties.handleColorIndex = currentHandleColorIndex;
+                
+                EditorPrefs.SetInt(savedHandleColorIndex, currentHandleColorIndex);
+            }
+
+            currentHandleRadius = EditorGUILayout.Slider("Handle Radius", editorProperties.handleRadius, 0.5f, 3f);
+            if (currentHandleRadius != editorProperties.handleRadius)
+            {
+                Undo.RecordObject(editorProperties, "handleRadius");
+                editorProperties.handleRadius = currentHandleRadius;
+
+                EditorPrefs.SetFloat(savedHandleRadius, currentHandleRadius);
+                
                 SceneView.RepaintAll();
             }
 
-            currentLineColorIndex = EditorGUILayout.Popup("Line Color", currentLineColorIndex, colorDropdown);
-            EditorPrefs.SetInt(savedLineColorIndex, currentLineColorIndex);
-
-            EditorGUI.BeginChangeCheck();
-            currentLineWidth = EditorGUILayout.Slider("Line Width", currentLineWidth, 1f, 20f);
-            EditorPrefs.SetFloat(savedLineWidth, currentLineWidth);
-
-            if (EditorGUI.EndChangeCheck())
+            currentLineColorIndex = EditorGUILayout.Popup("Line Color", editorProperties.lineColorIndex, colorDropdown);
+            if (currentLineColorIndex != editorProperties.lineColorIndex)
             {
+                Undo.RecordObject(editorProperties, "lineColor");
+                editorProperties.lineColorIndex = currentLineColorIndex;
+                
+                EditorPrefs.SetInt(savedLineColorIndex, currentLineColorIndex);
+            }
+
+            currentLineWidth = EditorGUILayout.Slider("Line Width", editorProperties.lineWidth, 1f, 20f);
+            if (currentLineWidth != editorProperties.lineColorIndex)
+            {
+                Undo.RecordObject(editorProperties, "lineWidth");
+                editorProperties.lineWidth = currentLineWidth;
+
+                EditorPrefs.SetFloat(savedLineWidth, currentLineWidth);
+                
                 SceneView.RepaintAll();
             }
         }
@@ -352,11 +377,20 @@ namespace DOTweenModular2D.Editor
 
             if (GUILayout.Button(resetButton, GUILayout.Height(buttonSize), GUILayout.Width(buttonSize)))
             {
-                currentHandleIndex = 0;
-                currentHandleColorIndex = 5;
-                currentHandleRadius = 0.5f;
-                currentLineColorIndex = 5;
-                currentLineWidth = 1f;
+                editorProperties.handleIndex = 0;
+                EditorPrefs.SetInt(savedHandleIndex, editorProperties.handleIndex);
+
+                editorProperties.handleColorIndex = 5;
+                EditorPrefs.SetInt(savedHandleColorIndex, editorProperties.handleColorIndex);
+
+                editorProperties.handleRadius = 0.5f;
+                EditorPrefs.SetFloat(savedHandleRadius, editorProperties.handleRadius);
+
+                editorProperties.lineColorIndex = 5;
+                EditorPrefs.SetInt(savedLineColorIndex, editorProperties.lineColorIndex);
+
+                editorProperties.lineWidth = 1f;
+                EditorPrefs.SetFloat(savedLineWidth, editorProperties.lineWidth);
 
                 SceneView.RepaintAll();
             }
@@ -367,7 +401,7 @@ namespace DOTweenModular2D.Editor
         #region Preview Functions
 
         /// <summary>
-        /// Draws a line to Tween Object, does not have null check you have to do it yourself
+        /// Draws complete lines to backward Tween Objects, also displays arrow head and Begin Property
         /// </summary>
         protected void DrawTweenObjectInfo()
         {
@@ -485,6 +519,16 @@ namespace DOTweenModular2D.Editor
 
         #endregion
 
+    }
+
+    public class EditorProperties : ScriptableObject
+    {
+        public int handleIndex;
+        public int handleColorIndex;
+        public float handleRadius;
+
+        public int lineColorIndex;
+        public float lineWidth;
     }
 
 }
