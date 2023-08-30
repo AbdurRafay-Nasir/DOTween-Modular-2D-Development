@@ -13,7 +13,6 @@ Collection of Modular components for DOTween, Developed by 'Linked Games'
 If you just want to use the package visit this [link](https://github.com/Linked-Games/DOTween-Modular-2D)
 
 ## Issues
-- In DOMove and DOPath, Undo/Redo cannot be performed for editor properties such as Handle Color, Handle Radius, Line Color etc 
 - targetPosition and pathPoints in DOMove and DOPath respectively is recalculated when changing value of 'relative', Undo/Redo of 'relative' does not correctly apply previous value of targetPosition and pathPoints 
 
 ## Contribute

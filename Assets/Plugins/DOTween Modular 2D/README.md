@@ -10,16 +10,22 @@ Collection of Modular components for DOTween
 - Extension Methods for 2D Look At
 
 ## Prerequisite
-Must install [DOTween](https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676) before installing this package
+- [DOTween](https://assetstore.unity.com/packages/tools/animation/dotween-hotween-v2-27676)
+- DOTween asmdef 
+(Tools -> Demigiant -> DOTween Utility Panel -> Create ASMDEF)
 
 ## Installation
-- Go to Window -> Package Manager
+- Window -> Package Manager
 - Click **+**, Select **Add Package Form Git URL**
-- Paste this URL: https://github.com/Linked-Games/DOTween-Modular-2D.git
-- Click add
+- Paste this URL: https://github.com/Linked-Games/DOTween-Modular-2D.git, Click add
+- There will be some errors, ignore them
+- Project Window -> Packages -> DOTween Modular 2D -> RIGHT_CLICK -> Show in Explorer
+- Cut com.linkedgames.dotweenmodular2d, Paste at YOUR_PROJECT -> Assets -> Plugins
+- Add DOTween asmdef reference at com.linkedgames.dotweenmodular2d -> Runtime -> linkedgames.dotweenmoudular2d
+- Click Apply and you are all set, you can now rename com.linkedgames.dotweenmodular2d
+to DOTween Modular 2D or whatever you like
 
 ## Issues
-- In DOMove and DOPath, Undo/Redo cannot be performed for editor properties such as Handle Color, Handle Radius, Line Color etc 
 - targetPosition and pathPoints in DOMove and DOPath respectively is recalculated when changing value of 'relative', Undo/Redo of 'relative' does not correctly apply previous value of targetPosition and pathPoints 
 
 ## Contribute

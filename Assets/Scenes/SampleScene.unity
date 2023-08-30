@@ -713,52 +713,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 811685791}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd28fa69cd1c75b42b5d94276554732f, type: 3}
+  m_Script: {fileID: 11500000, guid: 16e0b5c711e06024487ae7d50a20d0fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  begin: 0
-  tweenObject: {fileID: 0}
-  kill: 0
-  destroyComponent: 0
-  destroyGameObject: 0
-  delay: 0
-  tweenType: 0
-  loopType: 0
-  easeType: 0
-  curve:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  loops: -1
-  duration: 1
-  onTweenCreated:
-    m_PersistentCalls:
-      m_Calls: []
-  onTweenStarted:
-    m_PersistentCalls:
-      m_Calls: []
-  onTweenCompleted:
-    m_PersistentCalls:
-      m_Calls: []
-  onTweenKilled:
-    m_PersistentCalls:
-      m_Calls: []
-  pathType: 0
-  resolution: 1
-  lookAt: 0
-  lookAtTarget: {fileID: 0}
-  lookAtPosition: {x: 0, y: 0}
-  offset: -90
-  smoothFactor: 1
-  percentage: 0.01
-  speedBased: 0
-  relative: 0
-  connectStartAndEnd: 0
-  pathPoints:
-  - {x: 11.242548, y: 2.5008473}
-  - {x: 3.0190406, y: 2.6810887}
 --- !u!1 &1234659487
 GameObject:
   m_ObjectHideFlags: 0
