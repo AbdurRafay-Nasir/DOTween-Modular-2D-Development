@@ -189,7 +189,7 @@ namespace DOTweenModular2D.Editor
                 Handles.color = Color.white;
 
                 if (doPunch.tweenObject != null)
-                    DrawLineToTweenObject();
+                    DrawTweenObjectInfo();
             }
         }
 

@@ -16,8 +16,6 @@ namespace DOTweenModular2D.Editor
         private DOSequence doSequence;
         private bool tweenPreviewing;
 
-        private Kill killTypeBeforePreview;
-
         private SavedTransforms[] savedTransforms;
 
         private bool[] tabStates = new bool[4];
@@ -197,7 +195,7 @@ namespace DOTweenModular2D.Editor
                 Handles.color = Color.white;
 
                 if (doSequence.tweenObject != null)
-                    DrawLineToTweenObject();
+                    DrawTweenObjectInfo();
             }
 
             if (doSequence.sequenceTweens == null)

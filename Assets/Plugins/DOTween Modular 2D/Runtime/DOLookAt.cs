@@ -42,7 +42,6 @@ namespace DOTweenModular2D
             if (lookAt == LookAtSimple.None) return;
 
             tween.onUpdate += OnTweenUpdate;
-            tween.onComplete += OnTweenCompleted;
         }
 
         private void OnTweenUpdate()
@@ -55,12 +54,6 @@ namespace DOTweenModular2D
             {
                 transform.LookAt2DSmooth(lookAtTarget, offset, smoothFactor, min, max);
             }
-        }
-
-        private void OnTweenCompleted()
-        {
-            tween.onUpdate -= OnTweenUpdate;
-            tween.onComplete -= OnTweenCompleted;
         }
 
         protected new void OnDestroy()

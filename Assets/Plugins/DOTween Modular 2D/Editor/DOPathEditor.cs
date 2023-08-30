@@ -295,7 +295,7 @@ namespace DOTweenModular2D.Editor
                 Handles.color = Color.white;
 
                 if (doPath.tweenObject != null)
-                    DrawLineToTweenObject();
+                    DrawTweenObjectInfo();
             }
 
             SetupPoints(doPath.relative);

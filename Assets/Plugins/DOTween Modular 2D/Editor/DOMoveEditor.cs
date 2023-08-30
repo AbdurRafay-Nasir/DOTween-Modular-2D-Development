@@ -286,7 +286,7 @@ namespace DOTweenModular2D.Editor
                 Handles.color = Color.white;
 
                 if (doMove.tweenObject != null)
-                    DrawLineToTweenObject();
+                    DrawTweenObjectInfo();
             }
 
             Color handleColor = color[currentHandleColorIndex];

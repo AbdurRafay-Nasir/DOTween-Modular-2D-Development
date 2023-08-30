@@ -248,7 +248,7 @@ namespace DOTweenModular2D.Editor
                 Handles.color = Color.white;
 
                 if (doScale.tweenObject != null)
-                    DrawLineToTweenObject();
+                    DrawTweenObjectInfo();
             }
 
             if (doScale.lookAt == LookAtSimple.None)

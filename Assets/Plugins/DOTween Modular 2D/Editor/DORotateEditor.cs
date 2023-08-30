@@ -185,7 +185,7 @@ namespace DOTweenModular2D.Editor
                 Handles.color = Color.white;
 
                 if (doRotate.tweenObject != null)
-                    DrawLineToTweenObject();
+                    DrawTweenObjectInfo();
             }
         }
 

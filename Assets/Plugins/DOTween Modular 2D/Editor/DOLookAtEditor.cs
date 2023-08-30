@@ -188,7 +188,7 @@ namespace DOTweenModular2D.Editor
                 Handles.color = Color.white;
 
                 if (doLookAt.tweenObject != null)
-                    DrawLineToTweenObject();
+                    DrawTweenObjectInfo();
             }
 
             if (doLookAt.lookAt == Enums.LookAtSimple.None)

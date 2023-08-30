@@ -40,7 +40,7 @@ namespace DOTweenModular2D.Editor
         private Quaternion rotationBeforePreview;
         private Vector3 scaleBeforePreview;
 
-        private Kill killTypeBeforePreview;
+        protected Kill killTypeBeforePreview;
 
         protected const float buttonSize = 40;
 
@@ -369,21 +369,46 @@ namespace DOTweenModular2D.Editor
         /// <summary>
         /// Draws a line to Tween Object, does not have null check you have to do it yourself
         /// </summary>
-        protected void DrawLineToTweenObject()
+        protected void DrawTweenObjectInfo()
         {
-            DOBase tweenObj = (DOBase)tweenObjectProp.objectReferenceValue;
-            Vector2 lineStart = doBase.transform.position;
+            Handles.color = Color.cyan;
 
-            Handles.DrawLine(lineStart, tweenObj.transform.position);
+            DOBase tweenObj = (DOBase)tweenObjectProp.objectReferenceValue;
+
+            Vector2 lineStart = doBase.transform.position;
+            Vector2 lineEnd = tweenObj.transform.position;
+
+            Handles.DrawLine(lineStart, lineEnd);
+
+            Vector2 midPoint = (lineStart + lineEnd) * 0.5f;
+            string text = doBase.begin.ToString();
+            Handles.Label(midPoint, text);
+
+            const float arrowOffset = 0.7f;
+            Vector2 arrowPosition = midPoint + arrowOffset * (lineStart - midPoint);
+
+            Vector2 arrowDirection = lineStart - midPoint;
+
+            Handles.ConeHandleCap(10, arrowPosition, Quaternion.LookRotation(arrowDirection), 0.5f, EventType.Repaint);
 
             while ((tweenObj.begin == Begin.After || tweenObj.begin == Begin.With)
                      && tweenObj.tweenObject != null)
             {
-                lineStart = tweenObj.transform.position;
+                text = tweenObj.begin.ToString();
 
+                lineStart = tweenObj.transform.position;
                 tweenObj = tweenObj.tweenObject;
 
-                Handles.DrawLine(lineStart, tweenObj.transform.position);
+                lineEnd = tweenObj.transform.position;
+
+                Handles.DrawLine(lineStart, lineEnd);
+
+                midPoint = (lineStart + lineEnd) * 0.5f;                
+                Handles.Label(midPoint, text);
+
+                arrowPosition = midPoint + arrowOffset * (lineStart - midPoint);
+                arrowDirection = lineStart - midPoint;
+                Handles.ConeHandleCap(10, arrowPosition, Quaternion.LookRotation(arrowDirection), 0.5f, EventType.Repaint);
             }
         }
 
