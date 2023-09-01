@@ -143,9 +143,6 @@ namespace DOTweenModular2D.Editor
 
         private void OnSceneGUI()
         {
-            if (doLookAt.lookAt == Enums.LookAtSimple.None)
-                return;
-
             if (doLookAt.begin == Enums.Begin.After ||
                 doLookAt.begin == Enums.Begin.With)
             {
@@ -154,6 +151,9 @@ namespace DOTweenModular2D.Editor
                 if (doLookAt.tweenObject != null)
                     DrawTweenObjectInfo();
             }
+
+            if (doLookAt.lookAt == Enums.LookAtSimple.None)
+                return;
 
             Handles.color = Color.green;
 

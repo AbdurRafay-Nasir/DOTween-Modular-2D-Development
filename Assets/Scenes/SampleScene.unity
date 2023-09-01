@@ -665,6 +665,7 @@ GameObject:
   m_Component:
   - component: {fileID: 637946877}
   - component: {fileID: 637946876}
+  - component: {fileID: 637946878}
   m_Layer: 0
   m_Name: Triangle (5)
   m_TagString: Untagged
@@ -740,6 +741,54 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &637946878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 637946873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 779fa9c5141016b45890ad86fa517d27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  begin: 0
+  tweenObject: {fileID: 0}
+  kill: 0
+  destroyComponent: 0
+  destroyGameObject: 0
+  delay: 0
+  tweenType: 0
+  loopType: 0
+  easeType: 0
+  curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  loops: -1
+  duration: 1
+  onTweenCreated:
+    m_PersistentCalls:
+      m_Calls: []
+  onTweenStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  onTweenCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+  onTweenKilled:
+    m_PersistentCalls:
+      m_Calls: []
+  lookAt: 1
+  lookAtTarget: {fileID: 0}
+  lookAtPosition: {x: 1.4251385, y: 0.52352}
+  offset: -90
+  min: 90
+  max: 270
+  smoothFactor: 0.01
 --- !u!1 &811685791
 GameObject:
   m_ObjectHideFlags: 0
@@ -1300,7 +1349,7 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   loops: -1
-  duration: 1
+  duration: 5
   onTweenCreated:
     m_PersistentCalls:
       m_Calls: []
@@ -1313,13 +1362,13 @@ MonoBehaviour:
   onTweenKilled:
     m_PersistentCalls:
       m_Calls: []
-  speedBased: 0
-  relative: 0
-  targetScale: {x: 5, y: 5}
   lookAt: 1
   lookAtTarget: {fileID: 0}
-  lookAtPosition: {x: 7, y: 2}
+  lookAtPosition: {x: 6.970915, y: -1.4028792}
   offset: -90
   min: 0
   max: 360
   smoothFactor: 0.039
+  speedBased: 0
+  relative: 0
+  targetScale: {x: 5, y: 5}

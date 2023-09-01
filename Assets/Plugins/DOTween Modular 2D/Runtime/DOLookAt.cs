@@ -39,6 +39,11 @@ namespace DOTweenModular2D
 
             InvokeTweenCreated();
 
+            SetupLookAt();
+        }
+
+        protected void SetupLookAt()
+        {
             if (lookAt == LookAtSimple.None) return;
 
             tween.onUpdate += OnTweenUpdate;
