@@ -5,8 +5,6 @@ using UnityEditor;
 
 namespace DOTweenModular2D.Editor
 {
-    [CustomEditor(typeof(DOShakeBase))]
-    [CanEditMultipleObjects]
     public class DOShakeBaseEditor : DOBaseEditor
     {
         #region Serialized Properties

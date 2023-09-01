@@ -232,6 +232,10 @@ namespace DOTweenModular2D.Editor
                 EditorGUILayout.EndFoldoutHeaderGroup();
             }
 
+            if (EditorApplication.isPlaying)
+                return;
+
+            EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
             EditorGUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();

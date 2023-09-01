@@ -20,10 +20,10 @@ namespace DOTweenModular2D
         public float offset = -90f;
 
         [Tooltip("Minimum Rotation, Set min to 0 and max to 360 for no rotation clamp")]
-        [Range(0f, 360f)] public float min = 90f;
+        [Range(0f, 360f)] public float min = 0f;
 
         [Tooltip("Maximum Rotation, Set min to 0 and max to 360 for no rotation clamp")]
-        [Range(0f, 360f)] public float max = 270f;
+        [Range(0f, 360f)] public float max = 360f;
 
         [Tooltip("Smoothness of rotation, 1 means there will be no smoothness")]
         [Range(0f, 1f)] public float smoothFactor = 0.01f;
