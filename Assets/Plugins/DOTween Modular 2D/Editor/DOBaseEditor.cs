@@ -9,7 +9,6 @@ namespace DOTweenModular2D.Editor
     using UnityEngine;
     using UnityEditor;
 
-    [CustomEditor(typeof(DOBase)), CanEditMultipleObjects]
     public class DOBaseEditor : Editor
     {
 
@@ -20,6 +19,7 @@ namespace DOTweenModular2D.Editor
         protected SerializedProperty killProp;
         protected SerializedProperty destroyComponentProp;
         protected SerializedProperty destroyGameObjectProp;
+
         protected SerializedProperty delayProp;
         protected SerializedProperty tweenTypeProp;
         protected SerializedProperty loopTypeProp;
@@ -27,7 +27,9 @@ namespace DOTweenModular2D.Editor
         private SerializedProperty curveProp;
         protected SerializedProperty loopsProp;
         protected SerializedProperty durationProp;
+
         private SerializedProperty onTweenCreatedProp;
+        private SerializedProperty onTweenStartedProp;
         private SerializedProperty onTweenCompletedProp;
         private SerializedProperty onTweenKilledProp;
 
@@ -127,6 +129,7 @@ namespace DOTweenModular2D.Editor
             killProp = serializedObject.FindProperty("kill");
             destroyComponentProp = serializedObject.FindProperty("destroyComponent");
             destroyGameObjectProp = serializedObject.FindProperty("destroyGameObject");
+
             delayProp = serializedObject.FindProperty("delay");
             tweenTypeProp = serializedObject.FindProperty("tweenType");
             loopTypeProp = serializedObject.FindProperty("loopType");
@@ -134,7 +137,9 @@ namespace DOTweenModular2D.Editor
             curveProp = serializedObject.FindProperty("curve");
             loopsProp = serializedObject.FindProperty("loops");
             durationProp = serializedObject.FindProperty("duration");
+
             onTweenCreatedProp = serializedObject.FindProperty("onTweenCreated");
+            onTweenStartedProp = serializedObject.FindProperty("onTweenStarted");
             onTweenCompletedProp = serializedObject.FindProperty("onTweenCompleted");
             onTweenKilledProp = serializedObject.FindProperty("onTweenKilled");
         }
@@ -181,7 +186,7 @@ namespace DOTweenModular2D.Editor
             typeSettingsFoldout = EditorPrefs.GetBool(savedTypeSettingsFoldout, true);
             valuesFoldout = EditorPrefs.GetBool(savedValuesFoldout, true);
             eventsFoldout = EditorPrefs.GetBool(savedEventsFoldout, false);
-            editorFoldout = EditorPrefs.GetBool(savedEditorFoldout, false);
+            editorFoldout = EditorPrefs.GetBool(savedEditorFoldout, true);
 
             // Apply saved values to Editor Properties
             editorProperties.handleIndex = EditorPrefs.GetInt(savedHandleIndex, 0);
@@ -285,11 +290,12 @@ namespace DOTweenModular2D.Editor
         }
 
         /// <summary>
-        /// Draws onTweenCreated, onTweenCompleted events
+        /// Draws onTweenCreated, onTweenStartedProp, onTweenCompleted, onTweenKilledProp events
         /// </summary>
         protected void DrawEvents()
         {
             EditorGUILayout.PropertyField(onTweenCreatedProp);
+            EditorGUILayout.PropertyField(onTweenStartedProp);
             EditorGUILayout.PropertyField(onTweenCompletedProp);
             EditorGUILayout.PropertyField(onTweenKilledProp);
         }

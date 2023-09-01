@@ -6,8 +6,6 @@ using UnityEditor;
 
 namespace DOTweenModular2D.Editor
 {
-    [CustomEditor(typeof(DOPunchBase))]
-    [CanEditMultipleObjects]
     public class DOPunchBaseEditor : DOBaseEditor
     {
 

@@ -7,7 +7,7 @@ using UnityEditor;
 namespace DOTweenModular2D.Editor
 {
     [CustomEditor(typeof(DOMove)), CanEditMultipleObjects]
-    public class DOMoveEditor : DOBaseEditor
+    public class DOMoveEditor : DOLookAtBaseEditor
     {
 
         #region Serialized Properties
@@ -17,14 +17,6 @@ namespace DOTweenModular2D.Editor
         private SerializedProperty relativeProp;
         private SerializedProperty snappingProp;
         private SerializedProperty targetPositionProp;
-
-        private SerializedProperty lookAtProp;
-        private SerializedProperty lookAtTargetProp;
-        private SerializedProperty lookAtPositionProp;
-        private SerializedProperty minProp;
-        private SerializedProperty maxProp;
-        private SerializedProperty offsetProp;
-        private SerializedProperty smoothFactorProp;
 
         #endregion
 
@@ -48,9 +40,6 @@ namespace DOTweenModular2D.Editor
 
         private bool moveSettingsFoldout = true;
         private string savedMoveSettingsFoldout;
-
-        private bool lookAtSettingsFoldout = true;
-        private string savedLookAtSettingsFoldout;
 
         #endregion
 
@@ -172,26 +161,7 @@ namespace DOTweenModular2D.Editor
                 EditorGUILayout.EndFoldoutHeaderGroup();
             }
 
-            if (doMove.lookAt == LookAtSimple.Transform && doMove.lookAtTarget == null)
-            {
-                EditorGUILayout.HelpBox("Look At Target not Assigned", MessageType.Error);
-            }
-            else if (doMove.lookAt != LookAtSimple.Transform && doMove.lookAtTarget != null)
-            {
-                EditorGUILayout.BeginHorizontal();
-
-                EditorGUILayout.HelpBox("Look At Target is still Assigned, it Should be removed", MessageType.Warning);
-
-                GUIContent trashButton = EditorGUIUtility.IconContent("TreeEditor.Trash");
-                trashButton.tooltip = "Remove Look At Target";
-
-                if (GUILayout.Button(trashButton, GUILayout.Height(buttonSize), GUILayout.Width(buttonSize * 2f)))
-                {
-                    doMove.lookAtTarget = null;
-                }
-
-                EditorGUILayout.EndHorizontal();
-            }
+            DrawLookAtHelpBox();
 
             if (tabStates[4])
             {
@@ -257,7 +227,6 @@ namespace DOTweenModular2D.Editor
                     EditorGUILayout.Space();
                     EditorGUILayout.EndVertical();
 
-
                     EditorGUI.indentLevel--;
                 }
                 EditorGUILayout.EndFoldoutHeaderGroup();
@@ -292,7 +261,6 @@ namespace DOTweenModular2D.Editor
             Color handleColor = color[currentHandleColorIndex];
             Color lineColor = color[currentLineColorIndex];
 
-
             Vector3 startPosition;
 
             if (EditorApplication.isPlaying)
@@ -307,7 +275,7 @@ namespace DOTweenModular2D.Editor
 
             if (doMove.lookAt != LookAtSimple.None)
             {
-                DrawLookAtLine(lineColor);
+                DrawLookAtLine();
                 DrawRotationClampCircle();
             }
 
@@ -378,7 +346,7 @@ namespace DOTweenModular2D.Editor
             return handlePosition;
         }
 
-        #region Draw Functions
+        #region Scene Draw Functions
 
         private void DrawTargetLineAndSphere(Vector3 startPosition, Vector3 endPosition, Color handleColor, Color lineColor)
         {
@@ -412,49 +380,6 @@ namespace DOTweenModular2D.Editor
                 // Perform the handle move and update the serialized data
                 Vector2 delta = newHandlePosition - handlePosition;
                 doMove.targetPosition += delta;
-            }
-        }
-
-        private void DrawLookAtLine(Color lineColor)
-        {
-            Handles.color = lineColor;
-
-            if (doMove.lookAt == LookAtSimple.Position)
-            {
-                Handles.DrawDottedLine(doMove.transform.position, doMove.lookAtPosition, 5f);
-            }
-            else if (doMove.lookAtTarget != null)
-            {
-                Handles.DrawDottedLine(doMove.transform.position, doMove.lookAtTarget.position, 5f);
-            }
-        }
-
-        private void DrawRotationClampCircle()
-        {
-            Vector3 position = doMove.transform.position;
-
-            // Calculate the endpoints of the arc based on the min and max angles
-            float minAngle = (doMove.min + 90) * Mathf.Deg2Rad;
-            float maxAngle = (doMove.max + 90) * Mathf.Deg2Rad;
-            Vector3 minDir = new Vector3(Mathf.Cos(minAngle), Mathf.Sin(minAngle), 0);
-            Vector3 maxDir = new Vector3(Mathf.Cos(maxAngle), Mathf.Sin(maxAngle), 0);
-
-            // Draw the circle representing the range
-            Handles.DrawWireArc(position, Vector3.forward, minDir, doMove.max - doMove.min, 2f);
-
-            // Draw lines from the center to the min and max angles
-            Handles.DrawLine(position, position + minDir * 2f);
-            Handles.DrawLine(position, position + maxDir * 2f);
-        }
-
-        private void DrawLookAtHandle()
-        {
-            Vector2 newLookAtPosition = Handles.PositionHandle(doMove.lookAtPosition, Quaternion.identity);
-
-            if (newLookAtPosition != doMove.lookAtPosition)
-            {
-                Undo.RecordObject(doMove, "lookAtPosition Handle");
-                doMove.lookAtPosition = newLookAtPosition;
             }
         }
 
@@ -493,29 +418,6 @@ namespace DOTweenModular2D.Editor
             EditorGUILayout.PropertyField(snappingProp);
         }
 
-        private void DrawLookAtSettings()
-        {
-            EditorGUILayout.PropertyField(lookAtProp);
-
-            if ((LookAtSimple)lookAtProp.enumValueIndex == LookAtSimple.None)
-                return;
-
-            switch ((LookAtSimple)lookAtProp.enumValueIndex)
-            {
-                case LookAtSimple.Position:
-                    EditorGUILayout.PropertyField(lookAtPositionProp);
-                    break;
-
-                case LookAtSimple.Transform:
-                    EditorGUILayout.PropertyField(lookAtTargetProp);
-                    break;
-            }
-            EditorGUILayout.PropertyField(offsetProp);
-            EditorGUILayout.PropertyField(minProp);
-            EditorGUILayout.PropertyField(maxProp);
-            EditorGUILayout.PropertyField(smoothFactorProp);
-        }
-
         protected override void DrawValues()
         {
             EditorGUILayout.PropertyField(targetPositionProp);
@@ -534,14 +436,6 @@ namespace DOTweenModular2D.Editor
             relativeProp = serializedObject.FindProperty("relative");
             snappingProp = serializedObject.FindProperty("snapping");
             targetPositionProp = serializedObject.FindProperty("targetPosition");
-
-            lookAtProp = serializedObject.FindProperty("lookAt");
-            lookAtTargetProp = serializedObject.FindProperty("lookAtTarget");
-            lookAtPositionProp = serializedObject.FindProperty("lookAtPosition");
-            minProp = serializedObject.FindProperty("min");
-            maxProp = serializedObject.FindProperty("max");
-            offsetProp = serializedObject.FindProperty("offset");
-            smoothFactorProp = serializedObject.FindProperty("smoothFactor");
         }
 
         protected override void SetupSavedVariables(DOBase doMove)
@@ -558,9 +452,6 @@ namespace DOTweenModular2D.Editor
 
             savedMoveSettingsFoldout = "DOMoveEditor_moveSettingsFoldout_" + instanceId;
             moveSettingsFoldout = EditorPrefs.GetBool(savedMoveSettingsFoldout, true);
-
-            savedLookAtSettingsFoldout = "DOMoveEditor_lookAtSettingsFoldout_" + instanceId;
-            lookAtSettingsFoldout = EditorPrefs.GetBool(savedLookAtSettingsFoldout, true);
 
             for (int i = 0; i < savedTabStates.Length; i++)
             {
