@@ -1,9 +1,57 @@
+using DG.Tweening.Core;
+using DG.Tweening.Plugins;
+using DG.Tweening;
 using UnityEngine;
 
 namespace DOTweenModular2D
 {
     public static class Extensions
     {
+        #region Tween Functions
+
+        /// <summary>Tweens a RectTransform's anchoredPosition so that it draws a circle around the given center.
+        /// Also stores the RectTransform as the tween's target so it can be used for filtered operations.<para/>
+        /// IMPORTANT: SetFrom(value) requires a <see cref="Vector2"/> instead of a float, where the X property represents the "from degrees value"</summary>
+        /// <param name="center">Circle-center/pivot around which to rotate (in UI anchoredPosition coordinates)</param>
+        /// <param name="endValueDegrees">The end value degrees to reach (to rotate counter-clockwise pass a negative value)</param>
+        /// <param name="duration">The duration of the tween</param>
+        /// <param name="relativeCenter">If TRUE the <see cref="center"/> coordinates will be considered as relative to the target's current anchoredPosition</param>
+        /// <param name="snapping">If TRUE the tween will smoothly snap all values to integers</param>
+        public static TweenerCore<Vector2, Vector2, CircleOptions> DOShapeCircle(
+            this Transform target, Vector2 center, float endValueDegrees, float duration,
+            bool relativeCenter = false, bool snapping = false
+        )
+
+        {
+            TweenerCore<Vector2, Vector2, CircleOptions> t = DOTween.To(
+                CirclePlugin.Get(), () => target.position, x => target.position = x, center, duration
+            );
+            t.SetOptions(endValueDegrees, relativeCenter, snapping).SetTarget(target);
+            return t;
+        }
+
+        /// <summary>Tweens a RectTransform's anchoredPosition so that it draws a circle around the given center.
+        /// Also stores the RectTransform as the tween's target so it can be used for filtered operations.<para/>
+        /// IMPORTANT: SetFrom(value) requires a <see cref="Vector2"/> instead of a float, where the X property represents the "from degrees value"</summary>
+        /// <param name="center">Circle-center/pivot around which to rotate (in UI anchoredPosition coordinates)</param>
+        /// <param name="endValueDegrees">The end value degrees to reach (to rotate counter-clockwise pass a negative value)</param>
+        /// <param name="duration">The duration of the tween</param>
+        /// <param name="relativeCenter">If TRUE the <see cref="center"/> coordinates will be considered as relative to the target's current anchoredPosition</param>
+        /// <param name="snapping">If TRUE the tween will smoothly snap all values to integers</param>
+        public static TweenerCore<Vector2, Vector2, CircleOptions> DOLocalShapeCircle(
+            this Transform target, Vector2 center, float endValueDegrees,
+            float duration, bool snapping = false
+        )
+
+        {
+            TweenerCore<Vector2, Vector2, CircleOptions> t = DOTween.To(
+                CirclePlugin.Get(), () => target.localPosition, x => target.localPosition = x, center, duration
+            );
+            t.SetOptions(endValueDegrees, false, snapping).SetTarget(target);
+            return t;
+        }
+
+        #endregion
 
         #region LookAt2D Functions
 
