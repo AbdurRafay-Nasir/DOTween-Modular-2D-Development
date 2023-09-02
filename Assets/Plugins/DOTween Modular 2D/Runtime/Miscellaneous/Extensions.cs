@@ -53,7 +53,25 @@ namespace DOTweenModular2D.Miscellaneous
         }
 
         /// <summary>
-        /// Tweens a Sprite Renderer Width to given targetWidth
+        /// Tweens Sprite Renderer Size to given targetSize
+        /// </summary>
+        /// <param name="targetSize">The Size to Reach</param>
+        /// <param name="duration">The duration of the tween</param>
+        /// <remarks>Does not take into account the SpriteRenderer Draw Mode. <br/>
+        /// SpriteRenderer Draw Mode should be set to Sliced or Tiled
+        /// </remarks>
+        public static TweenerCore<Vector2, Vector2, VectorOptions> DOSize(
+            this SpriteRenderer target, Vector2 targetSize, float duration)
+        {
+            TweenerCore<Vector2, Vector2, VectorOptions> tween = DOTween.To(
+                () => target.size, x => target.size = x, targetSize, duration);
+
+            tween.SetTarget(target);
+            return tween;
+        }
+
+        /// <summary>
+        /// Tweens Sprite Renderer Width to given targetWidth
         /// </summary>
         /// <param name="targetWidth">The Width to Reach</param>
         /// <param name="duration">The duration of the tween</param>
@@ -71,7 +89,7 @@ namespace DOTweenModular2D.Miscellaneous
         }
 
         /// <summary>
-        /// Tweens a Sprite Renderer Height to given targetheight
+        /// Tweens Sprite Renderer Height to given targetheight
         /// </summary>
         /// <param name="targetheight">The Height to Reach</param>
         /// <param name="duration">The duration of the tween</param>
