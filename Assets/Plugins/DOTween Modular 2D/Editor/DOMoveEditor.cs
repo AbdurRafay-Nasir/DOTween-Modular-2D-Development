@@ -21,20 +21,11 @@ namespace DOTweenModular2D.Editor
         #endregion
 
         private DOMove doMove;
+        private RelativeFlags relativeFlags;
         private Vector3 beginPosition;
 
         private bool[] tabStates = new bool[7];
         private string[] savedTabStates = new string[7];
-
-        #region Saved Variables
-
-        private bool firstTimeNonRelative = true;
-        private bool firstTimeRelative = false;
-
-        private string savedFirstTimeNonRelative;
-        private string savedFirstTimeRelative;
-
-        #endregion
 
         #region Foldout bool Properties
 
@@ -48,6 +39,7 @@ namespace DOTweenModular2D.Editor
         private void OnEnable()
         {
             doMove = (DOMove)target;
+            relativeFlags = CreateInstance<RelativeFlags>();
             beginPosition = doMove.transform.position;
 
             SetupSerializedProperties();
@@ -316,33 +308,31 @@ namespace DOTweenModular2D.Editor
 
                 if (doMove.relative)
                 {
-                    if (firstTimeRelative)
+                    if (relativeFlags.firstTimeRelative)
                     {
                         doMove.targetPosition = doMove.targetPosition - (Vector2)doMove.transform.position;
 
-                        firstTimeRelative = false;
-                        EditorPrefs.SetBool(savedFirstTimeRelative, firstTimeRelative);
+                        Undo.RecordObject(relativeFlags, "DOMoveEditor_firstTimeNonRelative");
+                        relativeFlags.firstTimeRelative = false;
                     }
 
                     handlePosition = startPosition + doMove.targetPosition;
 
-                    firstTimeNonRelative = true;
-                    EditorPrefs.SetBool(savedFirstTimeNonRelative, firstTimeNonRelative);
+                    relativeFlags.firstTimeNonRelative = true;
                 }
                 else
                 {
-                    if (firstTimeNonRelative)
+                    if (relativeFlags.firstTimeNonRelative)
                     {
                         doMove.targetPosition = doMove.targetPosition + (Vector2)doMove.transform.position;
 
-                        firstTimeNonRelative = false;
-                        EditorPrefs.SetBool(savedFirstTimeNonRelative, firstTimeNonRelative);
+                        Undo.RecordObject(relativeFlags, "DOMoveEditor_firstTimeRelative");
+                        relativeFlags.firstTimeNonRelative = false;
                     }
 
                     handlePosition = doMove.targetPosition;
 
-                    firstTimeRelative = true;
-                    EditorPrefs.SetBool(savedFirstTimeRelative, firstTimeRelative);
+                    relativeFlags.firstTimeRelative = true;
                 }
 
             }
@@ -447,12 +437,6 @@ namespace DOTweenModular2D.Editor
             base.SetupSavedVariables(doMove);
 
             int instanceId = doMove.GetInstanceID();
-
-            savedFirstTimeNonRelative = "DOMoveEditor_firstTimeNonRelative_" + instanceId;
-            firstTimeNonRelative = EditorPrefs.GetBool(savedFirstTimeNonRelative, false);
-
-            savedFirstTimeRelative = "DOMoveEditor_firstTimeRelative_" + instanceId;
-            firstTimeRelative = EditorPrefs.GetBool(savedFirstTimeRelative, true);
 
             savedMoveSettingsFoldout = "DOMoveEditor_moveSettingsFoldout_" + instanceId;
             moveSettingsFoldout = EditorPrefs.GetBool(savedMoveSettingsFoldout, true);

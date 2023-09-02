@@ -21,16 +21,6 @@ namespace DOTweenModular2D.Editor
 
         #endregion
 
-        #region Saved Variables
-
-        private bool firstTimeNonRelative = true;
-        private bool firstTimeRelative = false;
-
-        private string savedFirstTimeNonRelative;
-        private string savedFirstTimeRelative;
-
-        #endregion
-
         #region Foldout Bools
 
         private bool jumpSettingsFoldout = true;
@@ -39,6 +29,8 @@ namespace DOTweenModular2D.Editor
         #endregion
 
         private DOJump doJump;
+        private RelativeFlags relativeFlags;
+        private Vector2 beginPosition;
 
         private bool[] tabStates = new bool[6];
         private string[] savedTabStates = new string[6];
@@ -48,6 +40,8 @@ namespace DOTweenModular2D.Editor
         private void OnEnable()
         {
             doJump = (DOJump)target;
+            relativeFlags = CreateInstance<RelativeFlags>();
+            beginPosition = doJump.transform.position;
 
             SetupSerializedProperties();
             SetupSavedVariables(doJump);
@@ -233,7 +227,16 @@ namespace DOTweenModular2D.Editor
 
             Color handleColor = color[currentHandleColorIndex];
 
-            Vector2 handlePosition = CalculateTargetPosition(doJump.transform.position);
+            Vector3 startPosition;
+
+            if (EditorApplication.isPlaying)
+                startPosition = beginPosition;
+            else if (TweenPreviewing)
+                startPosition = positionBeforePreview;
+            else
+                startPosition = doJump.transform.position;
+
+            Vector2 handlePosition = CalculateTargetPosition(startPosition);
 
             if (doJump.lookAt != LookAtSimple.None)
             {
@@ -270,33 +273,31 @@ namespace DOTweenModular2D.Editor
 
                 if (doJump.relative)
                 {
-                    if (firstTimeRelative)
+                    if (relativeFlags.firstTimeRelative)
                     {
                         doJump.targetPosition = doJump.targetPosition - (Vector2)doJump.transform.position;
 
-                        firstTimeRelative = false;
-                        EditorPrefs.SetBool(savedFirstTimeRelative, firstTimeRelative);
+                        Undo.RecordObject(relativeFlags, "DOJumpEditor_firstTimeRelative");
+                        relativeFlags.firstTimeRelative = false;
                     }
 
                     handlePosition = startPosition + doJump.targetPosition;
 
-                    firstTimeNonRelative = true;
-                    EditorPrefs.SetBool(savedFirstTimeNonRelative, firstTimeNonRelative);
+                    relativeFlags.firstTimeNonRelative = true;
                 }
                 else
                 {
-                    if (firstTimeNonRelative)
+                    if (relativeFlags.firstTimeNonRelative)
                     {
                         doJump.targetPosition = doJump.targetPosition + (Vector2)doJump.transform.position;
 
-                        firstTimeNonRelative = false;
-                        EditorPrefs.SetBool(savedFirstTimeNonRelative, firstTimeNonRelative);
+                        Undo.RecordObject(relativeFlags, "DOJumpEditor_firstTimeNonRelative");
+                        relativeFlags.firstTimeNonRelative = false;
                     }
 
                     handlePosition = doJump.targetPosition;
 
-                    firstTimeRelative = true;
-                    EditorPrefs.SetBool(savedFirstTimeRelative, firstTimeRelative);
+                    relativeFlags.firstTimeRelative = true;
                 }
 
             }
@@ -386,12 +387,6 @@ namespace DOTweenModular2D.Editor
             base.SetupSavedVariables(doBase);
 
             int instanceId = doJump.GetInstanceID();
-
-            savedFirstTimeNonRelative = "DOMoveEditor_firstTimeNonRelative_" + instanceId;
-            firstTimeNonRelative = EditorPrefs.GetBool(savedFirstTimeNonRelative, false);
-
-            savedFirstTimeRelative = "DOMoveEditor_firstTimeRelative_" + instanceId;
-            firstTimeRelative = EditorPrefs.GetBool(savedFirstTimeRelative, true);
 
             savedJumpSettingsFoldout = "DoJumpEditor_jumpSettingsFoldout_" + instanceId;
             jumpSettingsFoldout = EditorPrefs.GetBool(savedJumpSettingsFoldout, true);

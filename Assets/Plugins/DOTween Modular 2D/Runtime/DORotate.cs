@@ -27,7 +27,7 @@ namespace DOTweenModular2D
 
         [Tooltip("The rotation to reach, if relative is true game object will rotate as: " + "\n" +
                  "targetZRotation = targetZRotation + transform.rotation")]
-        [Range(0f, 360f)]
+        [Range(-360f, 360f)]
         public float targetZRotation = 90;
     
         public override void CreateTween()

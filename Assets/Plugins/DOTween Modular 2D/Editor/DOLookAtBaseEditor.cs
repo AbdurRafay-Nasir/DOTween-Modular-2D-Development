@@ -7,13 +7,13 @@ namespace DOTweenModular2D.Editor
 {
     public class DOLookAtBaseEditor : DOBaseEditor
     {
-        private SerializedProperty lookAtProp;
-        private SerializedProperty lookAtTargetProp;
-        private SerializedProperty lookAtPositionProp;
-        private SerializedProperty offsetProp;
-        private SerializedProperty minProp;
-        private SerializedProperty maxProp;
-        private SerializedProperty smoothFactorProp;
+        protected SerializedProperty lookAtProp;
+        protected SerializedProperty lookAtTargetProp;
+        protected SerializedProperty lookAtPositionProp;
+        protected SerializedProperty offsetProp;
+        protected SerializedProperty minProp;
+        protected SerializedProperty maxProp;
+        protected SerializedProperty smoothFactorProp;
 
         #region Foldout Bool
 

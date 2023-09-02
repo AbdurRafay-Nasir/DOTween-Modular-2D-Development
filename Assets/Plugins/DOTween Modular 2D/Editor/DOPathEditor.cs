@@ -32,20 +32,11 @@ namespace DOTweenModular2D.Editor
         #endregion
 
         private DOPath doPath;
-        private Vector3 beginPosition;
+        private RelativeFlags relativeFlags;
+        private Vector2 beginPosition;
 
         private bool[] tabStates = new bool[8];
         private string[] savedTabStates = new string[8];
-
-        #region Saved Variables
-
-        private bool firstTimeRelative = true;
-        private string savedFirstTimeRelative;
-
-        private bool firstTimeNonRelative = false;
-        private string savedFirstTimeNonRelative;
-
-        #endregion
 
         #region Foldout bools
 
@@ -62,6 +53,7 @@ namespace DOTweenModular2D.Editor
         private void OnEnable()
         {
             doPath = (DOPath)target;
+            relativeFlags = CreateInstance<RelativeFlags>();
             beginPosition = doPath.transform.position;
 
             SetupSerializedProperties();
@@ -150,6 +142,10 @@ namespace DOTweenModular2D.Editor
                 EditorGUILayout.EndFoldoutHeaderGroup();
             }
 
+            if (doPath.pathType == DG.Tweening.PathType.CubicBezier)
+            {
+                DrawCubicBezierHelpBox();
+            }
 
             if (tabStates[3])
             {
@@ -175,26 +171,7 @@ namespace DOTweenModular2D.Editor
                 EditorGUILayout.EndFoldoutHeaderGroup();
             }
 
-            if (doPath.lookAt == LookAtPath.Transform && doPath.lookAtTarget == null)
-            {
-                EditorGUILayout.HelpBox("Look At Target not Assigned", MessageType.Error);
-            }
-            else if (doPath.lookAt != LookAtPath.Transform && doPath.lookAtTarget != null)
-            {
-                EditorGUILayout.BeginHorizontal();
-
-                EditorGUILayout.HelpBox("Look At Target is still Assigned, it Should be removed", MessageType.Warning);
-
-                GUIContent trashButton = EditorGUIUtility.IconContent("TreeEditor.Trash");
-                trashButton.tooltip = "Remove Look At Target";
-
-                if (GUILayout.Button(trashButton, GUILayout.Height(buttonSize), GUILayout.Width(buttonSize * 2f)))
-                {
-                    doPath.lookAtTarget = null;
-                }
-
-                EditorGUILayout.EndHorizontal();
-            }
+            DrawLookAtHelpBox();
 
             if (tabStates[4])
             {
@@ -318,7 +295,7 @@ namespace DOTweenModular2D.Editor
                 {
                     case DG.Tweening.PathType.Linear:
                     case DG.Tweening.PathType.CatmullRom:
-                        DrawSimpleHandle(doPath.relative, currentHandleIndex);
+                        DrawSimpleHandle(startPosition, doPath.relative, currentHandleIndex);
 
                         break;
 
@@ -373,7 +350,7 @@ namespace DOTweenModular2D.Editor
 
         #endregion
 
-        #region Draw Properties Functions
+        #region Inspector Draw Functions
 
         private void DrawTabs()
         {
@@ -412,6 +389,17 @@ namespace DOTweenModular2D.Editor
                 EditorGUILayout.PropertyField(connectStartAndEndProp);
         }
 
+        private void DrawCubicBezierHelpBox()
+        {
+            if (doPath.pathPoints == null) return;
+
+            if (doPath.pathPoints.Length % 3 != 0)
+            {
+                EditorGUILayout.HelpBox("Path Points should be multiple of 3 for Cubic Bezier Curve", 
+                                         MessageType.Warning);
+            }
+        }
+
         private void DrawLookAtSettings()
         {
             EditorGUILayout.PropertyField(lookAtProp);
@@ -439,6 +427,30 @@ namespace DOTweenModular2D.Editor
             }
         }
 
+        private void DrawLookAtHelpBox()
+        {
+            if (doPath.lookAt == LookAtPath.Transform && doPath.lookAtTarget == null)
+            {
+                EditorGUILayout.HelpBox("Look At Target not Assigned", MessageType.Error);
+            }
+            else if (doPath.lookAt != LookAtPath.Transform && doPath.lookAtTarget != null)
+            {
+                EditorGUILayout.BeginHorizontal();
+
+                EditorGUILayout.HelpBox("Look At Target is still Assigned, it Should be removed", MessageType.Warning);
+
+                GUIContent trashButton = EditorGUIUtility.IconContent("TreeEditor.Trash");
+                trashButton.tooltip = "Remove Look At Target";
+
+                if (GUILayout.Button(trashButton, GUILayout.Height(buttonSize), GUILayout.Width(buttonSize * 2f)))
+                {
+                    doPath.lookAtTarget = null;
+                }
+
+                EditorGUILayout.EndHorizontal();
+            }
+        }
+
         protected override void DrawValues()
         {
             EditorGUILayout.PropertyField(speedBasedProp);
@@ -451,7 +463,7 @@ namespace DOTweenModular2D.Editor
 
         #region Draw Handles
 
-        private void DrawSimpleHandle(bool relative, int handleIndex)
+        private void DrawSimpleHandle(Vector2 startPosition, bool relative, int handleIndex)
         {
             Handles.color = color[currentHandleColorIndex];
 
@@ -461,7 +473,7 @@ namespace DOTweenModular2D.Editor
                 {
                     Vector2 handlePos, newHandlePos;
 
-                    handlePos = (Vector2)doPath.transform.position + doPath.pathPoints[i];
+                    handlePos = startPosition + doPath.pathPoints[i];
 
                     if (handleIndex == 0)
                         newHandlePos = Handles.PositionHandle(handlePos, Quaternion.identity);
@@ -507,9 +519,9 @@ namespace DOTweenModular2D.Editor
 
             if (!TweenPreviewing && !relative)
             {
-                if (beginPosition != doPath.transform.position)
+                if (beginPosition != (Vector2)doPath.transform.position)
                 {
-                    Vector2 delta = doPath.transform.position - beginPosition;
+                    Vector2 delta = (Vector2)doPath.transform.position - beginPosition;
 
                     doPath.pathPoints[1] += delta;
 
@@ -636,7 +648,7 @@ namespace DOTweenModular2D.Editor
 
         #region Draw Path
 
-        private void DrawLinearPath(Vector3 startPosition, bool relative, bool connectStartAndEnd)
+        private void DrawLinearPath(Vector2 startPosition, bool relative, bool connectStartAndEnd)
         {
             Vector3 previousPosition = startPosition;
 
@@ -646,7 +658,7 @@ namespace DOTweenModular2D.Editor
                 {
                     Handles.color = color[currentLineColorIndex];
 
-                    Vector3 nextPosition = doPath.transform.position + (Vector3)doPath.pathPoints[i];
+                    Vector3 nextPosition = startPosition + doPath.pathPoints[i];
                     Handles.DrawLine(previousPosition, nextPosition, currentLineWidth);
                     previousPosition = nextPosition;
 
@@ -685,7 +697,7 @@ namespace DOTweenModular2D.Editor
 
                 if (doPath.relative)
                 {
-                    lastPoint = startPosition + (Vector3)doPath.pathPoints[doPath.pathPoints.Length - 1];
+                    lastPoint = startPosition + doPath.pathPoints[doPath.pathPoints.Length - 1];
                 }
                 else
                 {
@@ -821,33 +833,27 @@ namespace DOTweenModular2D.Editor
         {
             if (relative)
             {
-                if (firstTimeRelative)
+                if (relativeFlags.firstTimeRelative)
                 {
                     doPath.pathPoints = Curve.GetRelativePoints(doPath.transform.position, doPath.pathPoints);
 
-                    firstTimeRelative = false;
-                    EditorPrefs.SetBool(savedFirstTimeRelative, firstTimeRelative);
-
-                    SceneView.RepaintAll();
+                    Undo.RecordObject(relativeFlags, "DOPath_firstTimeRelative");
+                    relativeFlags.firstTimeRelative = false;
                 }
 
-                firstTimeNonRelative = true;
-                EditorPrefs.SetBool(savedFirstTimeNonRelative, firstTimeNonRelative);
+                relativeFlags.firstTimeNonRelative = true;
             }
             else
             {
-                if (firstTimeNonRelative)
+                if (relativeFlags.firstTimeNonRelative)
                 {
                     doPath.pathPoints = Curve.GetAbsolutePoints(doPath.transform.position, doPath.pathPoints);
 
-                    firstTimeNonRelative = false;
-                    EditorPrefs.SetBool(savedFirstTimeNonRelative, firstTimeNonRelative);
-
-                    SceneView.RepaintAll();
+                    Undo.RecordObject(relativeFlags, "DOPath_firstTimeNonRelative");
+                    relativeFlags.firstTimeNonRelative = false;
                 }
 
-                firstTimeRelative = true;
-                EditorPrefs.SetBool(savedFirstTimeRelative, firstTimeRelative);
+                relativeFlags.firstTimeRelative = true;
             }
 
         }
@@ -883,12 +889,6 @@ namespace DOTweenModular2D.Editor
 
             savedLookAtSettingsFoldout = "DOPathEditor_lookAtSettingsFoldout_" + instanceId;
             lookAtSettingsFoldout = EditorPrefs.GetBool(savedLookAtSettingsFoldout, true);
-
-            savedFirstTimeRelative = "DOPathEditor_firstTimeRelative_" + instanceId;
-            firstTimeRelative = EditorPrefs.GetBool(savedFirstTimeRelative, true);
-
-            savedFirstTimeNonRelative = "DOPathEditor_firstNonTimeRelative_" + instanceId;
-            firstTimeNonRelative = EditorPrefs.GetBool(savedFirstTimeNonRelative, false);
 
             for (int i = 0; i < savedTabStates.Length; i++)
             {

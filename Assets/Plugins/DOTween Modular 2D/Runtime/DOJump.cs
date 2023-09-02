@@ -24,7 +24,7 @@ namespace DOTweenModular2D
         public float jumpPower;
 
         [Tooltip("Number of Jumps")]
-        [Min(1)] public int jumps;
+        [Min(1)] public int jumps = 1;
 
         public override void CreateTween()
         {

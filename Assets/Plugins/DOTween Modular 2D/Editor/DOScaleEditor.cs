@@ -19,6 +19,7 @@ namespace DOTweenModular2D.Editor
         #endregion
 
         private DOScale doScale;
+        private RelativeFlags relativeFlags;
 
         private bool[] tabStates = new bool[6];
         private string[] savedTabStates = new string[6];
@@ -35,6 +36,7 @@ namespace DOTweenModular2D.Editor
         private void OnEnable()
         {
             doScale = (DOScale)target;
+            relativeFlags = CreateInstance<RelativeFlags>();
 
             SetupSerializedProperties();
             SetupSavedVariables(doScale);
@@ -42,6 +44,8 @@ namespace DOTweenModular2D.Editor
 
         public override void OnInspectorGUI()
         {
+            SetupTargetScale();
+
             EditorGUILayout.Space();
 
             DrawTabs();
@@ -275,7 +279,35 @@ namespace DOTweenModular2D.Editor
 
         #endregion
 
-        #region Setup
+        #region Setup Functions
+
+        private void SetupTargetScale()
+        {
+            if (doScale.relative)
+            {
+                if (relativeFlags.firstTimeRelative)
+                {
+                    doScale.targetScale = doScale.targetScale - (Vector2)doScale.transform.localScale;
+
+                    Undo.RecordObject(relativeFlags, "DOScaleEditor_firstTimeRelative");
+                    relativeFlags.firstTimeRelative = false;
+                }
+
+                relativeFlags.firstTimeNonRelative = true;
+            }
+            else
+            {
+                if (relativeFlags.firstTimeNonRelative)
+                {
+                    doScale.targetScale = doScale.targetScale + (Vector2)doScale.transform.localScale;
+
+                    Undo.RecordObject(relativeFlags, "DOScaleEditor_firstTimeNonRelative");
+                    relativeFlags.firstTimeNonRelative = false;
+                }
+
+                relativeFlags.firstTimeRelative = true;
+            }
+        }
 
         protected override void SetupSerializedProperties()
         {

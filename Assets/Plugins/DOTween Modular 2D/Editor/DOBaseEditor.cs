@@ -218,8 +218,12 @@ namespace DOTweenModular2D.Editor
             }
 
             EditorGUILayout.PropertyField(killProp);
-            EditorGUILayout.PropertyField(destroyComponentProp);
-            EditorGUILayout.PropertyField(destroyGameObjectProp);
+
+            if (doBase.kill != Kill.Manual)
+            {
+                EditorGUILayout.PropertyField(destroyComponentProp);
+                EditorGUILayout.PropertyField(destroyGameObjectProp);
+            }
         }
 
         /// <summary>
@@ -535,6 +539,12 @@ namespace DOTweenModular2D.Editor
 
         public int lineColorIndex;
         public float lineWidth;
+    }
+
+    public class RelativeFlags : ScriptableObject
+    {
+        public bool firstTimeRelative;
+        public bool firstTimeNonRelative;
     }
 
 }

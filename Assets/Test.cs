@@ -1,22 +1,23 @@
-using DG.Tweening;
 using UnityEngine;
-using DOTweenModular2D;
 
 public class Test : MonoBehaviour
 {
-    [SerializeField] Vector2 center;
-    [SerializeField] Ease ease;
-    [SerializeField] float degree;
-    [SerializeField] float duration;
+    public Transform center;
 
-    // Start is called before the first frame update
-    void Start()
+    public Vector3 axis;
+    public float speed;
+
+    private void Update()
     {
-        // RectTransform rectTransform = (RectTransform)transform;
+        transform.RotateAround(center.position, axis, Time.deltaTime * speed);
 
-        // rectTransform.DOShapeCircle(center, degree, duration).Play();
-        transform.DOShapeCircle(center, degree, duration).Play();
-        // transform.DOShapeCircleLocal(center, degree, duration, true).SetEase(ease).Play();
+        //you might not need the - in the beginning depending how your scene is setup
+        var dir = -(center.position - transform.position);
+        var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+        //here you need to use the same axis you use in the rotate around method.
+        //If you use .forward use it here as well.
+        transform.rotation = Quaternion.AngleAxis(angle, axis);
     }
 
 }
