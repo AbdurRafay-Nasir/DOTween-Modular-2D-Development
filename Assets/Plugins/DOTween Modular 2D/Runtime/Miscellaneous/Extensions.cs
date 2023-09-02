@@ -61,7 +61,8 @@ namespace DOTweenModular2D.Miscellaneous
         /// SpriteRenderer Draw Mode should be set to Sliced or Tiled
         /// </remarks>
         public static TweenerCore<Vector2, Vector2, VectorOptions> DOSize(
-            this SpriteRenderer target, Vector2 targetSize, float duration)
+            this SpriteRenderer target, Vector2 targetSize, float duration
+        )
         {
             TweenerCore<Vector2, Vector2, VectorOptions> tween = DOTween.To(
                 () => target.size, x => target.size = x, targetSize, duration);
@@ -79,7 +80,8 @@ namespace DOTweenModular2D.Miscellaneous
         /// SpriteRenderer Draw Mode should be set to Sliced or Tiled
         /// </remarks>
         public static TweenerCore<float, float, FloatOptions> DOWidth(
-            this SpriteRenderer target, float targetWidth, float duration)
+            this SpriteRenderer target, float targetWidth, float duration
+        )
         {
             TweenerCore<float, float, FloatOptions> tween = DOTween.To(
                 () => target.size.x, x => target.size = new Vector2(x, target.size.y), targetWidth, duration);
@@ -97,7 +99,8 @@ namespace DOTweenModular2D.Miscellaneous
         /// SpriteRenderer Draw Mode should be set to Sliced or Tiled
         /// </remarks>
         public static TweenerCore<float, float, FloatOptions> DOHeight(
-            this SpriteRenderer target, float targetheight, float duration)
+            this SpriteRenderer target, float targetheight, float duration
+        )
         {
             TweenerCore<float, float, FloatOptions> tween = DOTween.To(
                 () => target.size.y, y => target.size = new Vector2(target.size.x, y), targetheight, duration);
