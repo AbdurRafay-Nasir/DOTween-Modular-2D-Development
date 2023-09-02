@@ -1,5 +1,6 @@
-using DG.Tweening;
 using DOTweenModular2D.Enums;
+using DOTweenModular2D.Miscellaneous;
+using DG.Tweening;
 using UnityEngine;
 
 namespace DOTweenModular2D

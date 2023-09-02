@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DOTweenModular2D
 {
-    [AddComponentMenu("DOTween Modular 2D/Transform/DO Anchor Pos")]
+    [AddComponentMenu("DOTween Modular 2D/UI/DO Anchor Pos")]
     public class DOAnchorPos : DOBase
     {
         [Tooltip("If TRUE, the tween will Move duration amount in each second")]

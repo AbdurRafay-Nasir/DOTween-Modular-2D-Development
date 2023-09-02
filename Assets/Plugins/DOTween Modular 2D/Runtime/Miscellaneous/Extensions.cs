@@ -2,8 +2,9 @@ using DG.Tweening.Core;
 using DG.Tweening.Plugins;
 using DG.Tweening;
 using UnityEngine;
+using DG.Tweening.Plugins.Options;
 
-namespace DOTweenModular2D
+namespace DOTweenModular2D.Miscellaneous
 {
     public static class Extensions
     {
@@ -49,6 +50,42 @@ namespace DOTweenModular2D
             );
             t.SetOptions(endValueDegrees, false, snapping).SetTarget(target);
             return t;
+        }
+
+        /// <summary>
+        /// Tweens a Sprite Renderer Width to given targetWidth
+        /// </summary>
+        /// <param name="targetWidth">The Width to Reach</param>
+        /// <param name="duration">The duration of the tween</param>
+        /// <remarks>Does not take into account the SpriteRenderer Draw Mode. <br/>
+        /// SpriteRenderer Draw Mode should be set to Sliced or Tiled
+        /// </remarks>
+        public static TweenerCore<float, float, FloatOptions> DOWidth(
+            this SpriteRenderer target, float targetWidth, float duration)
+        {
+            TweenerCore<float, float, FloatOptions> tween = DOTween.To(
+                () => target.size.x, x => target.size = new Vector2(x, target.size.y), targetWidth, duration);
+
+            tween.SetTarget(target);
+            return tween;
+        }
+
+        /// <summary>
+        /// Tweens a Sprite Renderer Height to given targetheight
+        /// </summary>
+        /// <param name="targetheight">The Height to Reach</param>
+        /// <param name="duration">The duration of the tween</param>
+        /// <remarks>Does not take into account the SpriteRenderer Draw Mode. <br/>
+        /// SpriteRenderer Draw Mode should be set to Sliced or Tiled
+        /// </remarks>
+        public static TweenerCore<float, float, FloatOptions> DOHeight(
+            this SpriteRenderer target, float targetheight, float duration)
+        {
+            TweenerCore<float, float, FloatOptions> tween = DOTween.To(
+                () => target.size.y, y => target.size = new Vector2(target.size.x, y), targetheight, duration);
+
+            tween.SetTarget(target);
+            return tween;
         }
 
         #endregion

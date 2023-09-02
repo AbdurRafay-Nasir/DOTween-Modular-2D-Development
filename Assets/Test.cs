@@ -1,4 +1,5 @@
 using DG.Tweening;
+using DOTweenModular2D.Miscellaneous;
 using UnityEngine;
 
 public class Test : MonoBehaviour
@@ -11,9 +12,6 @@ public class Test : MonoBehaviour
         float targetWidth = 5f; // Replace with your desired target width
         float duration = 2f;    // Replace with your desired tween duration
 
-        // Use DOTween.To to tween the width property
-        DOTween.To(() => sr.size.x, x => sr.size = new Vector2(x, sr.size.y), targetWidth, duration)
-               .SetEase(Ease.InOutElastic) 
-               .Play();
+        sr.DOWidth(targetWidth, duration).SetEase(Ease.InOutBounce).Play();
     }
 }
