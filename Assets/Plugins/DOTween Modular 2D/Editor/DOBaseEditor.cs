@@ -46,6 +46,14 @@ namespace DOTweenModular2D.Editor
 
         protected const float buttonSize = 40;
 
+        private void OnDisable()
+        {
+            if (target == null)
+            {
+                ClearSavedEditorPrefs();
+            }
+        }
+
         #region Handle Properties
 
         protected int currentHandleIndex = 0;
@@ -116,6 +124,69 @@ namespace DOTweenModular2D.Editor
         protected string savedEditorFoldout;
 
         #endregion
+
+        protected virtual void ClearSavedEditorPrefs()
+        {
+            if (EditorPrefs.HasKey(savedLifeTimeSettingsFoldout))
+            {
+                EditorPrefs.DeleteKey(savedLifeTimeSettingsFoldout);
+            }
+
+            if (EditorPrefs.HasKey(savedTypeSettingsFoldout))
+            {
+                EditorPrefs.DeleteKey(savedTypeSettingsFoldout);
+            }
+
+            if (EditorPrefs.HasKey(savedValuesFoldout))
+            {
+                EditorPrefs.DeleteKey(savedValuesFoldout);
+            }
+
+            if (EditorPrefs.HasKey(savedEventsFoldout))
+            {
+                EditorPrefs.DeleteKey(savedEventsFoldout);
+            }
+
+            if (EditorPrefs.HasKey(savedEditorFoldout))
+            {
+                EditorPrefs.DeleteKey(savedEditorFoldout);
+            }
+
+            if (EditorPrefs.HasKey(savedEditorFoldout))
+            {
+                EditorPrefs.DeleteKey(savedEditorFoldout);
+            }
+
+            if (EditorPrefs.HasKey(savedEditPath))
+            {
+                EditorPrefs.DeleteKey(savedEditPath);
+            }
+
+            if (EditorPrefs.HasKey(savedHandleIndex))
+            {
+                EditorPrefs.DeleteKey(savedHandleIndex);
+            }
+
+            if (EditorPrefs.HasKey(savedHandleColorIndex))
+            {
+                EditorPrefs.DeleteKey(savedHandleColorIndex);
+            }
+
+            if (EditorPrefs.HasKey(savedHandleRadius))
+            {
+                EditorPrefs.DeleteKey(savedHandleRadius);
+            }
+
+            if (EditorPrefs.HasKey(savedLineColorIndex))
+            {
+                EditorPrefs.DeleteKey(savedLineColorIndex);
+            }
+
+            if (EditorPrefs.HasKey(savedLineWidth))
+            {
+                EditorPrefs.DeleteKey(savedLineWidth);
+            }
+        }
 
         #region Setup Functions
 
@@ -201,7 +272,7 @@ namespace DOTweenModular2D.Editor
 
         #endregion
 
-        #region Draw Properties Functions
+        #region Inspector Draw Functions
 
         /// <summary>
         /// Draws begin, tweenObjectProp(if Begin = After or With), kill <br/>
@@ -428,8 +499,7 @@ namespace DOTweenModular2D.Editor
             string text = doBase.begin.ToString();
             Handles.Label(midPoint, text);
 
-            const float arrowOffset = 0.7f;
-            Vector2 arrowPosition = midPoint + arrowOffset * (lineStart - midPoint);
+            Vector2 arrowPosition = Vector2.Lerp(lineStart, lineEnd, 0.1f);
 
             Vector2 arrowDirection = lineStart - midPoint;
 
@@ -450,7 +520,7 @@ namespace DOTweenModular2D.Editor
                 midPoint = (lineStart + lineEnd) * 0.5f;                
                 Handles.Label(midPoint, text);
 
-                arrowPosition = midPoint + arrowOffset * (lineStart - midPoint);
+                arrowPosition = Vector2.Lerp(lineStart, lineEnd, 0.1f);
                 arrowDirection = lineStart - midPoint;
                 Handles.ConeHandleCap(10, arrowPosition, Quaternion.LookRotation(arrowDirection), 0.5f, EventType.Repaint);
             }

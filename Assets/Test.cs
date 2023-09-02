@@ -1,23 +1,19 @@
+using DG.Tweening;
 using UnityEngine;
 
 public class Test : MonoBehaviour
 {
-    public Transform center;
+    public SpriteRenderer sr;
 
-    public Vector3 axis;
-    public float speed;
-
-    private void Update()
+    private void Start()
     {
-        transform.RotateAround(center.position, axis, Time.deltaTime * speed);
+        // Assuming you want to tween the width from its current value to a new width over 2 seconds
+        float targetWidth = 5f; // Replace with your desired target width
+        float duration = 2f;    // Replace with your desired tween duration
 
-        //you might not need the - in the beginning depending how your scene is setup
-        var dir = -(center.position - transform.position);
-        var angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
-
-        //here you need to use the same axis you use in the rotate around method.
-        //If you use .forward use it here as well.
-        transform.rotation = Quaternion.AngleAxis(angle, axis);
+        // Use DOTween.To to tween the width property
+        DOTween.To(() => sr.size.x, x => sr.size = new Vector2(x, sr.size.y), targetWidth, duration)
+               .SetEase(Ease.InOutElastic) 
+               .Play();
     }
-
 }

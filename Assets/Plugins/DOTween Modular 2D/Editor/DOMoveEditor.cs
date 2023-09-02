@@ -448,6 +448,16 @@ namespace DOTweenModular2D.Editor
             }
         }
 
+        protected override void ClearSavedEditorPrefs()
+        {
+            base.ClearSavedEditorPrefs();
+
+            if (EditorPrefs.HasKey(savedMoveSettingsFoldout))
+            {
+                EditorPrefs.DeleteKey(savedMoveSettingsFoldout);
+            }
+        }
+
         #endregion
 
     }

@@ -7,6 +7,8 @@ namespace DOTweenModular2D.Editor
 {
     public class DOLookAtBaseEditor : DOBaseEditor
     {
+        #region Serialized Properties
+
         protected SerializedProperty lookAtProp;
         protected SerializedProperty lookAtTargetProp;
         protected SerializedProperty lookAtPositionProp;
@@ -14,6 +16,8 @@ namespace DOTweenModular2D.Editor
         protected SerializedProperty minProp;
         protected SerializedProperty maxProp;
         protected SerializedProperty smoothFactorProp;
+
+        #endregion
 
         #region Foldout Bool
 
@@ -143,6 +147,16 @@ namespace DOTweenModular2D.Editor
 
             savedLookAtSettingsFoldout = "DOLookAtBaseEditor_lookAtSettingsFoldout_" + instanceId;
             lookAtSettingsFoldout = EditorPrefs.GetBool(savedLookAtSettingsFoldout, true);
+        }
+
+        protected override void ClearSavedEditorPrefs()
+        {
+            base.ClearSavedEditorPrefs();
+
+            if (EditorPrefs.HasKey(savedLookAtSettingsFoldout))
+            {
+                EditorPrefs.DeleteKey(savedLookAtSettingsFoldout);
+            }
         }
 
         #endregion

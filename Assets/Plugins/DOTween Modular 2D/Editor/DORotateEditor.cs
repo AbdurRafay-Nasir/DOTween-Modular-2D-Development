@@ -22,11 +22,13 @@ namespace DOTweenModular2D.Editor
 
         private DORotate doRotate;
 
-        private string savedRotateSettingsFoldout;
         private bool rotateSettingsFoldout = true;
+        private string savedRotateSettingsFoldout;
 
         private bool[] tabStates = new bool[5];
         private string[] savedTabStates = new string[5];
+
+        #region Unity Functions
 
         private void OnEnable()
         {
@@ -189,6 +191,8 @@ namespace DOTweenModular2D.Editor
             }
         }
 
+        #endregion
+
         #region Draw Functions
 
         private void DrawTabs()
@@ -263,6 +267,16 @@ namespace DOTweenModular2D.Editor
             {
                 savedTabStates[i] = "DORotateEditor_tabStates_" + i + " " + instanceId;
                 tabStates[i] = EditorPrefs.GetBool(savedTabStates[i], true);
+            }
+        }
+
+        protected override void ClearSavedEditorPrefs()
+        {
+            base.ClearSavedEditorPrefs();
+
+            if (EditorPrefs.HasKey(savedRotateSettingsFoldout))
+            {
+                EditorPrefs.DeleteKey(savedRotateSettingsFoldout);
             }
         }
 

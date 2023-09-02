@@ -6,25 +6,30 @@ using UnityEditor;
 
 namespace DOTweenModular2D.Editor
 {
-    public class DOPunchBaseEditor : DOBaseEditor
+    [CustomEditor(typeof(DOAnchorPos))]
+    public class DOAnchorPosEditor : DOBaseEditor
     {
 
         #region Serialized Properties
 
-        private SerializedProperty vibratoProp;
-        private SerializedProperty elasticityProp;
+        private SerializedProperty relativeProp;
+        private SerializedProperty speedBasedProp;
+        private SerializedProperty snappingProp;
+        private SerializedProperty targetPositionProp;
 
         #endregion
 
-        private DOPunchBase doPunch;
+        private DOAnchorPos doAnchorPos;
+        private RectTransform rectTransform;
+        private RelativeFlags relativeFlags;
 
         private bool[] tabStates = new bool[5];
         private string[] savedTabStates = new string[5];
 
-        #region Foldout Bool
+        #region Foldout Settings
 
-        private bool punchSettingsFoldout = true;
-        private string savedpunchSettingsFoldout;
+        private bool moveSettingsFoldout = true;
+        private string savedMoveSettingsFoldout;
 
         #endregion
 
@@ -32,14 +37,18 @@ namespace DOTweenModular2D.Editor
 
         private void OnEnable()
         {
-            doPunch = (DOPunchBase)target;
+            doAnchorPos = (DOAnchorPos)target;
+            rectTransform = (RectTransform)doAnchorPos.transform;
+            relativeFlags = CreateInstance<RelativeFlags>();
 
             SetupSerializedProperties();
-            SetupSavedVariables(doPunch);
+            SetupSavedVariables(doAnchorPos);
         }
 
         public override void OnInspectorGUI()
         {
+            SetupTargetPosition();
+
             EditorGUILayout.Space();
 
             DrawTabs();
@@ -100,17 +109,17 @@ namespace DOTweenModular2D.Editor
             {
                 EditorGUILayout.LabelField("", GUI.skin.horizontalSlider);
 
-                // Draw Punch Settings
-                punchSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(punchSettingsFoldout, "Punch Settings");
-                EditorPrefs.SetBool(savedpunchSettingsFoldout, punchSettingsFoldout);
-                if (punchSettingsFoldout)
+                // Draw Scale Settings
+                moveSettingsFoldout = EditorGUILayout.BeginFoldoutHeaderGroup(moveSettingsFoldout, "Move Settings");
+                EditorPrefs.SetBool(savedMoveSettingsFoldout, moveSettingsFoldout);
+                if (moveSettingsFoldout)
                 {
                     EditorGUI.indentLevel++;
 
                     EditorGUILayout.BeginVertical("HelpBox");
                     EditorGUILayout.Space();
 
-                    DrawPunchSettings();
+                    DrawMoveSettings();
 
                     EditorGUILayout.Space();
                     EditorGUILayout.EndVertical();
@@ -143,6 +152,7 @@ namespace DOTweenModular2D.Editor
                 }
                 EditorGUILayout.EndFoldoutHeaderGroup();
             }
+
 
             if (tabStates[4])
             {
@@ -179,21 +189,21 @@ namespace DOTweenModular2D.Editor
             EditorGUILayout.EndHorizontal();
         }
 
-        protected void OnSceneGUI()
+        private void OnSceneGUI()
         {
-            if (doPunch.begin == Begin.After ||
-                doPunch.begin == Begin.With)
+            if (doAnchorPos.begin == Begin.After ||
+                doAnchorPos.begin == Begin.With)
             {
                 Handles.color = Color.white;
 
-                if (doPunch.tweenObject != null)
+                if (doAnchorPos.tweenObject != null)
                     DrawTweenObjectInfo();
             }
         }
 
         #endregion
 
-        #region Draw Functions
+        #region Inspector Draw Functions
 
         private void DrawTabs()
         {
@@ -202,7 +212,7 @@ namespace DOTweenModular2D.Editor
             GUIStyle toggleStyle = new GUIStyle(EditorStyles.miniButton);
             toggleStyle.fixedHeight = 30f;
 
-            string[] tabNames = new string[] { "Life", "Type", "Punch", "Values", "Events" };
+            string[] tabNames = new string[] { "Life", "Type", "Move", "Values", "Events" };
 
             for (int i = 0; i < tabStates.Length; i++)
             {
@@ -218,36 +228,74 @@ namespace DOTweenModular2D.Editor
             GUILayout.EndHorizontal();
         }
 
-        private void DrawPunchSettings()
+        private void DrawMoveSettings()
         {
-            EditorGUILayout.PropertyField(vibratoProp);
-            EditorGUILayout.PropertyField(elasticityProp);
+            EditorGUILayout.PropertyField(speedBasedProp);
+            EditorGUILayout.PropertyField(relativeProp);
+            EditorGUILayout.PropertyField(snappingProp);
+        }
+
+        protected override void DrawValues()
+        {
+            EditorGUILayout.PropertyField(targetPositionProp);
+
+            base.DrawValues();
         }
 
         #endregion
 
         #region Setup Functions
 
+        private void SetupTargetPosition()
+        {
+            if (doAnchorPos.relative)
+            {
+                if (relativeFlags.firstTimeRelative)
+                {
+                    doAnchorPos.targetPosition = doAnchorPos.targetPosition - rectTransform.anchoredPosition;
+
+                    Undo.RecordObject(relativeFlags, "DOAnchorPosEditor_firstTimeRelative");
+                    relativeFlags.firstTimeRelative = false;
+                }
+
+                relativeFlags.firstTimeNonRelative = true;
+            }
+            else
+            {
+                if (relativeFlags.firstTimeNonRelative)
+                {
+                    doAnchorPos.targetPosition = doAnchorPos.targetPosition + rectTransform.anchoredPosition;
+
+                    Undo.RecordObject(relativeFlags, "DOAnchorPosEditor_firstTimeNonRelative");
+                    relativeFlags.firstTimeNonRelative = false;
+                }
+
+                relativeFlags.firstTimeRelative = true;
+            }
+        }
+
         protected override void SetupSerializedProperties()
         {
             base.SetupSerializedProperties();
 
-            vibratoProp = serializedObject.FindProperty("vibrato");
-            elasticityProp = serializedObject.FindProperty("elasticity");
+            speedBasedProp = serializedObject.FindProperty("speedBased");
+            relativeProp = serializedObject.FindProperty("relative");
+            snappingProp = serializedObject.FindProperty("snapping");
+            targetPositionProp = serializedObject.FindProperty("targetPosition");
         }
 
-        protected override void SetupSavedVariables(DOBase doPunchBase)
+        protected override void SetupSavedVariables(DOBase dOScale)
         {
-            base.SetupSavedVariables(doPunchBase);
+            base.SetupSavedVariables(dOScale);
 
-            int instanceId = doPunchBase.GetInstanceID();
+            int instanceId = dOScale.GetInstanceID();
 
-            savedpunchSettingsFoldout = "DOPunchEditor_punchSettingsFoldout_" + instanceId;
-            punchSettingsFoldout = EditorPrefs.GetBool(savedpunchSettingsFoldout, true);
+            savedMoveSettingsFoldout = "DOAnchorPosEditor_scaleSettingsFoldout_" + instanceId;
+            moveSettingsFoldout = EditorPrefs.GetBool(savedMoveSettingsFoldout, true);
 
             for (int i = 0; i < savedTabStates.Length; i++)
             {
-                savedTabStates[i] = "DOPunchEditor_tabStates_" + i + " " + instanceId;
+                savedTabStates[i] = "DOAnchorPosEditor_tabStates_" + i + " " + instanceId;
                 tabStates[i] = EditorPrefs.GetBool(savedTabStates[i], true);
             }
         }
@@ -256,9 +304,9 @@ namespace DOTweenModular2D.Editor
         {
             base.ClearSavedEditorPrefs();
 
-            if (EditorPrefs.HasKey(savedpunchSettingsFoldout))
+            if (EditorPrefs.HasKey(savedMoveSettingsFoldout))
             {
-                EditorPrefs.DeleteKey(savedpunchSettingsFoldout);
+                EditorPrefs.DeleteKey(savedMoveSettingsFoldout);
             }
         }
 

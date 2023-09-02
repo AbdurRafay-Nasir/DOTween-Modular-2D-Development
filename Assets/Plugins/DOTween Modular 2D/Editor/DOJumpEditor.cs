@@ -335,7 +335,7 @@ namespace DOTweenModular2D.Editor
 
         #endregion
 
-        #region Draw Inspector Functions
+        #region Inspector Draw Functions
 
         private void DrawTabs()
         {
@@ -409,6 +409,16 @@ namespace DOTweenModular2D.Editor
 
             targetPositionProp = serializedObject.FindProperty("targetPosition");
             snappingProp = serializedObject.FindProperty("snapping");
+        }
+
+        protected override void ClearSavedEditorPrefs()
+        {
+            base.ClearSavedEditorPrefs();
+
+            if (EditorPrefs.HasKey(savedJumpSettingsFoldout))
+            {
+                EditorPrefs.DeleteKey(savedJumpSettingsFoldout);
+            }
         }
 
         #endregion

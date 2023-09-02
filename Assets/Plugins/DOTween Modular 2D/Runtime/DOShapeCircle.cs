@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace DOTweenModular2D
 {
+    [AddComponentMenu("DOTween Modular 2D/Transform/DO Shape Circle", 40)]
     public class DOShapeCircle : DOLookAt
     {
         public LookAtPath look;
