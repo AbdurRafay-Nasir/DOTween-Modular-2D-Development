@@ -963,7 +963,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 5, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -993,10 +993,42 @@ MonoBehaviour:
   m_GameObject: {fileID: 883528384}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 74772d43277e7344999ccee87746c953, type: 3}
+  m_Script: {fileID: 11500000, guid: 53cd98511137780438c7f1e943fc2027, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sr: {fileID: 883528386}
+  begin: 0
+  tweenObject: {fileID: 0}
+  kill: 0
+  destroyComponent: 0
+  destroyGameObject: 0
+  delay: 0
+  tweenType: 0
+  loopType: 0
+  easeType: 0
+  curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  loops: -1
+  duration: 1
+  onTweenCreated:
+    m_PersistentCalls:
+      m_Calls: []
+  onTweenStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  onTweenCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+  onTweenKilled:
+    m_PersistentCalls:
+      m_Calls: []
+  speedBased: 0
+  relative: 0
+  snapping: 0
+  targetSize: {x: 5, y: 1}
 --- !u!1 &1234659487
 GameObject:
   m_ObjectHideFlags: 0
@@ -1504,4 +1536,4 @@ MonoBehaviour:
   smoothFactor: 0.039
   speedBased: 0
   relative: 0
-  targetScale: {x: 5, y: 5}
+  targetSize: {x: 1, y: 1}

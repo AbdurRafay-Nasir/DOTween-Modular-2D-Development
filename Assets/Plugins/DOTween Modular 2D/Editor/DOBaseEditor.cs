@@ -344,7 +344,7 @@ namespace DOTweenModular2D.Editor
 
             EditorGUILayout.PropertyField(easeTypeProp);
 
-            if ((DG.Tweening.Ease)easeTypeProp.enumValueIndex == DG.Tweening.Ease.INTERNAL_Custom)
+            if ((Ease)easeTypeProp.enumValueIndex == Ease.INTERNAL_Custom)
             {
                 EditorGUILayout.PropertyField(curveProp);
             }

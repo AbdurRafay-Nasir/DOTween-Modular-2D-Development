@@ -19,7 +19,7 @@ namespace DOTweenModular2D
 
         [Tooltip("The size to reach, if relative is true Sprite Rendere size will tween as: " + "\n" +
                  "targetSize = targetSize + spriteRenderer.size")]
-        public Vector2 targetSize;
+        public Vector2 targetSize = Vector2.one;
 
         public override void CreateTween()
         {

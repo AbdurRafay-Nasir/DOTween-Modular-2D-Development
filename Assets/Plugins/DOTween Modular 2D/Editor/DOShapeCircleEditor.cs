@@ -273,7 +273,8 @@ namespace DOTweenModular2D.Editor
             DrawCenterLineAndSphere(startPosition, handlePosition, handleColor, lineColor);
             // DrawCircle(startPosition, handlePosition, Vector2.Distance(startPosition, handlePosition));
 
-            if (doShapeCircle.lookAt != LookAtSimple.None)
+            if (doShapeCircle.look != LookAtPath.None &&
+                doShapeCircle.look != LookAtPath.Percentage)
             {
                 DrawLookAtLine();
                 DrawRotationClampCircle();
@@ -283,7 +284,7 @@ namespace DOTweenModular2D.Editor
             {
                 DrawCenterHandle(handlePosition, handleColor);
 
-                if (doShapeCircle.lookAt == LookAtSimple.Position)
+                if (doShapeCircle.look == LookAtPath.Position)
                     DrawLookAtHandle();
             }
         }
@@ -344,6 +345,29 @@ namespace DOTweenModular2D.Editor
         }
 
         #region Scene Draw Functions
+
+        protected new void DrawLookAtHandle()
+        {
+            Vector2 newLookAtPosition = Handles.PositionHandle(doShapeCircle.lookAtPosition, Quaternion.identity);
+
+            if (newLookAtPosition != doShapeCircle.lookAtPosition)
+            {
+                Undo.RecordObject(doShapeCircle, "Change Look At Position_DOLookAt");
+                doShapeCircle.lookAtPosition = newLookAtPosition;
+            }
+        }
+
+        protected new void DrawLookAtLine()
+        {
+            if (doShapeCircle.look == LookAtPath.Position)
+            {
+                Handles.DrawDottedLine(doShapeCircle.transform.position, doShapeCircle.lookAtPosition, 5f);
+            }
+            else if (doShapeCircle.lookAtTarget != null)
+            {
+                Handles.DrawDottedLine(doShapeCircle.transform.position, doShapeCircle.lookAtTarget.position, 5f);
+            }
+        }
 
         private void DrawCenterHandle(Vector3 handlePosition, Color handleColor)
         {
@@ -479,6 +503,7 @@ namespace DOTweenModular2D.Editor
 
                 if (GUILayout.Button(trashButton, GUILayout.Height(buttonSize), GUILayout.Width(buttonSize * 2f)))
                 {
+                    Undo.RecordObject(doShapeCircle, "Look At Target");
                     doShapeCircle.lookAtTarget = null;
                 }
 

@@ -26,7 +26,7 @@ namespace DOTweenModular2D.Editor
 
         #endregion
 
-        private DOLookAt dOLookAt;
+        private DOLookAt doLookAt;
 
         #region Inspector Draw Functions
 
@@ -34,10 +34,10 @@ namespace DOTweenModular2D.Editor
         {
             EditorGUILayout.PropertyField(lookAtProp);
 
-            if (dOLookAt.lookAt == Enums.LookAtSimple.None)
+            if (doLookAt.lookAt == Enums.LookAtSimple.None)
                 return;
 
-            switch (dOLookAt.lookAt)
+            switch (doLookAt.lookAt)
             {
                 case Enums.LookAtSimple.Position:
                     EditorGUILayout.PropertyField(lookAtPositionProp);
@@ -55,11 +55,11 @@ namespace DOTweenModular2D.Editor
 
         protected void DrawLookAtHelpBox()
         {
-            if (dOLookAt.lookAt == Enums.LookAtSimple.Transform && dOLookAt.lookAtTarget == null)
+            if (doLookAt.lookAt == Enums.LookAtSimple.Transform && doLookAt.lookAtTarget == null)
             {
                 EditorGUILayout.HelpBox("Look At Target not Assigned", MessageType.Error);
             }
-            else if (dOLookAt.lookAt != Enums.LookAtSimple.Transform && dOLookAt.lookAtTarget != null)
+            else if (doLookAt.lookAt != Enums.LookAtSimple.Transform && doLookAt.lookAtTarget != null)
             {
                 EditorGUILayout.BeginHorizontal();
 
@@ -70,7 +70,7 @@ namespace DOTweenModular2D.Editor
 
                 if (GUILayout.Button(trashButton, GUILayout.Height(buttonSize), GUILayout.Width(buttonSize * 2f)))
                 {
-                    dOLookAt.lookAtTarget = null;
+                    doLookAt.lookAtTarget = null;
                 }
 
                 EditorGUILayout.EndHorizontal();
@@ -83,27 +83,27 @@ namespace DOTweenModular2D.Editor
 
         protected void DrawLookAtHandle()
         {
-            Vector2 newLookAtPosition = Handles.PositionHandle(dOLookAt.lookAtPosition, Quaternion.identity);
+            Vector2 newLookAtPosition = Handles.PositionHandle(doLookAt.lookAtPosition, Quaternion.identity);
 
-            if (newLookAtPosition != dOLookAt.lookAtPosition)
+            if (newLookAtPosition != doLookAt.lookAtPosition)
             {
-                Undo.RecordObject(dOLookAt, "Change Look At Position_DOLookAt");
-                dOLookAt.lookAtPosition = newLookAtPosition;
+                Undo.RecordObject(doLookAt, "Change Look At Position_DOLookAt");
+                doLookAt.lookAtPosition = newLookAtPosition;
             }
         }
 
         protected void DrawRotationClampCircle()
         {
-            Vector3 position = dOLookAt.transform.position;
+            Vector3 position = doLookAt.transform.position;
 
             // Calculate the endpoints of the arc based on the min and max angles
-            float minAngle = (dOLookAt.min + 90) * Mathf.Deg2Rad;
-            float maxAngle = (dOLookAt.max + 90) * Mathf.Deg2Rad;
+            float minAngle = (doLookAt.min + 90) * Mathf.Deg2Rad;
+            float maxAngle = (doLookAt.max + 90) * Mathf.Deg2Rad;
             Vector3 minDir = new Vector3(Mathf.Cos(minAngle), Mathf.Sin(minAngle), 0);
             Vector3 maxDir = new Vector3(Mathf.Cos(maxAngle), Mathf.Sin(maxAngle), 0);
 
             // Draw the circle representing the range
-            Handles.DrawWireArc(position, Vector3.forward, minDir, dOLookAt.max - dOLookAt.min, 2f);
+            Handles.DrawWireArc(position, Vector3.forward, minDir, doLookAt.max - doLookAt.min, 2f);
 
             // Draw lines from the center to the min and max angles
             Handles.DrawLine(position, position + minDir * 2f);
@@ -112,13 +112,13 @@ namespace DOTweenModular2D.Editor
 
         protected void DrawLookAtLine()
         {
-            if (dOLookAt.lookAt == Enums.LookAtSimple.Position)
+            if (doLookAt.lookAt == Enums.LookAtSimple.Position)
             {
-                Handles.DrawDottedLine(dOLookAt.transform.position, dOLookAt.lookAtPosition, 5f);
+                Handles.DrawDottedLine(doLookAt.transform.position, doLookAt.lookAtPosition, 5f);
             }
-            else if (dOLookAt.lookAtTarget != null)
+            else if (doLookAt.lookAtTarget != null)
             {
-                Handles.DrawDottedLine(dOLookAt.transform.position, dOLookAt.lookAtTarget.position, 5f);
+                Handles.DrawDottedLine(doLookAt.transform.position, doLookAt.lookAtTarget.position, 5f);
             }
         }
 
@@ -142,7 +142,7 @@ namespace DOTweenModular2D.Editor
         protected override void SetupSavedVariables(DOBase doLookAt)
         {
             base.SetupSavedVariables(doLookAt);
-            dOLookAt = (DOLookAt)doLookAt;
+            this.doLookAt = (DOLookAt)doLookAt;
             int instanceId = doLookAt.GetInstanceID();
 
             savedLookAtSettingsFoldout = "DOLookAtBaseEditor_lookAtSettingsFoldout_" + instanceId;
