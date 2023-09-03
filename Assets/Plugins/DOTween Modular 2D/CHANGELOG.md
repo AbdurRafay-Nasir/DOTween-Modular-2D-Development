@@ -1,3 +1,17 @@
+## [2.1.0] - 2023-09-3
+### Added
+- DOAnchorPos Component
+- DOSize Component
+- DOShapeCircle Component
+- DOLookAtBaseEditor
+- ClearSavedEditorPrefs() in DOBaseEditor to clear all EditorPrefs for a specific component when it is removed or gameObject is deleted
+- Stop Tween Preview if game Object was deselected/deleted or component was deleted
+
+
+### Changed
+- Refactored LookAt code, now to add look at functionality in DO component inherit from DOLookAt Component and call SetupLookAt after creating tween
+- Refactored LookAt editor code, now to create lookAt section in DO Component Editor, inherit from DOLookAtBaseEditor
+
 ## [2.0.2] - 2023-08-30
 ### Added
 - Undo/Redo functionality for Editor Properties
