@@ -9,7 +9,6 @@ namespace DOTweenModular2D.Editor
     [CustomEditor(typeof(DOScale)), CanEditMultipleObjects]
     public class DOScaleEditor : DOLookAtBaseEditor
     {
-
         #region Serialized Properties
 
         private SerializedProperty relativeProp;

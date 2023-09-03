@@ -910,6 +910,8 @@ GameObject:
   - component: {fileID: 883528387}
   - component: {fileID: 883528386}
   - component: {fileID: 883528388}
+  - component: {fileID: 883528390}
+  - component: {fileID: 883528389}
   m_Layer: 0
   m_Name: Triangle (6)
   m_TagString: Untagged
@@ -963,7 +965,7 @@ SpriteRenderer:
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 2
-  m_Size: {x: 5, y: 1}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -1025,10 +1027,103 @@ MonoBehaviour:
   onTweenKilled:
     m_PersistentCalls:
       m_Calls: []
-  speedBased: 0
+  speedBased: 1
   relative: 0
   snapping: 0
   targetSize: {x: 5, y: 1}
+--- !u!114 &883528389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883528384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cbedbbdb6b6c4af4a9477bac47214875, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  begin: 0
+  tweenObject: {fileID: 0}
+  kill: 0
+  destroyComponent: 0
+  destroyGameObject: 0
+  delay: 0
+  tweenType: 0
+  loopType: 0
+  easeType: 0
+  curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  loops: -1
+  duration: 1
+  onTweenCreated:
+    m_PersistentCalls:
+      m_Calls: []
+  onTweenStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  onTweenCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+  onTweenKilled:
+    m_PersistentCalls:
+      m_Calls: []
+  sequenceTweens: []
+--- !u!114 &883528390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883528384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 587fa3f2ec450d645b18b8db2387e16a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  begin: 0
+  tweenObject: {fileID: 0}
+  kill: 0
+  destroyComponent: 0
+  destroyGameObject: 0
+  delay: 0
+  tweenType: 0
+  loopType: 0
+  easeType: 0
+  curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  loops: -1
+  duration: 1
+  onTweenCreated:
+    m_PersistentCalls:
+      m_Calls: []
+  onTweenStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  onTweenCompleted:
+    m_PersistentCalls:
+      m_Calls: []
+  onTweenKilled:
+    m_PersistentCalls:
+      m_Calls: []
+  lookAt: 0
+  lookAtTarget: {fileID: 0}
+  lookAtPosition: {x: 0, y: 0}
+  offset: -90
+  min: 0
+  max: 360
+  smoothFactor: 0.01
+  speedBased: 0
+  relative: 0
+  targetScale: {x: 1, y: 1}
 --- !u!1 &1234659487
 GameObject:
   m_ObjectHideFlags: 0
@@ -1536,4 +1631,4 @@ MonoBehaviour:
   smoothFactor: 0.039
   speedBased: 0
   relative: 0
-  targetSize: {x: 1, y: 1}
+  targetScale: {x: 1, y: 1}

@@ -48,9 +48,18 @@ namespace DOTweenModular2D.Editor
 
         private void OnDisable()
         {
+            if (TweenPreviewing)
+            {
+                DOTweenEditorPreview.Stop(true);
+                ClearTweenCallbacks();
+                ApplySavedValues();
+
+                doBase.kill = killTypeBeforePreview;
+            }
+
             if (target == null)
             {
-                ClearSavedEditorPrefs();
+                ClearSavedEditorPrefs();               
             }
         }
 
