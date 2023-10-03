@@ -10,15 +10,15 @@ Collection of Modular components for DOTween, Developed by 'Linked Games'
 - Extension Methods for 2D Look At
 
 ## Important
-If you just want to use the package visit this [link](https://github.com/Linked-Games/DOTween-Modular-2D)
+If you just want to use the package visit this [link](https://github.com/AbdurRafay-Nasir/DOTween-Modular-2D)
 
 ## Issues
 - targetPosition and pathPoints in DOMove and DOPath respectively is recalculated when changing value of 'relative', Undo/Redo of 'relative' does not correctly apply previous value of targetPosition and pathPoints 
 
 ## Contribute
-Made in Unity 2021.3.19f1 LTS, You can clone this project or download this [.unitypackage](https://github.com/Linked-Games/DOTween-Modular-2D-Development/blob/main/dotween_modular_2d_development.unitypackage)
+Made in Unity 2021.3.19f1 LTS, You can clone this project or download this [.unitypackage](https://github.com/AbdurRafay-Nasir/DOTween-Modular-2D-Development/blob/main/dotween_modular_2d_development.unitypackage)
 
 ## Author
-- Linked Games
-- linkedgames07@gmail.com
-- https://github.com/Linked-Games
+- Abdur Rafay Nasir
+- AbdurRafayNasir1@gmail.com
+- https://github.com/AbdurRafay-Nasir
